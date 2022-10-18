@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
+use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -33,8 +36,29 @@ class AppFixtures extends Fixture
         $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setAdministrateur(0);
         $user->setActif(1);
+
+
+        $ville = new Ville();
+        $ville->setNom("Rennes");
+        $ville->setCodePostal("35000");
+
+        $etat = new Etat();
+        $etat->setNom("Créée");
+
+        $lieu = new Lieu();
+        $lieu->setNom("Place Saint-Anne");
+        $lieu->setRue("27 Rue Legraverend");
+        $lieu->setLatitude("48.11448");
+        $lieu->setLongitude("-1.680525");
+        $lieu->setVille($ville);
+
+
         $manager->persist($site);
         $manager->persist($user);
+        $manager->persist($ville);
+        $manager->persist($etat);
+        $manager->persist($lieu);
+
         $manager->flush();
 
         $site = new Site();
