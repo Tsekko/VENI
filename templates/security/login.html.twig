@@ -27,13 +27,18 @@
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
-
+    #}
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="_remember_me"> Remember me
+                {# Solution de secours pour afficher une checkbox cochée si l'on a un cookie d'utilisateur #}
+                {% if remember_me  == true %}
+                    <input type="checkbox" name="_remember_me" checked="{{ remember_me }}"> Remember me
+                {% else %}
+                    <input type="checkbox" name="_remember_me"> Remember me
+                {% endif %}
             </label>
         </div>
-    #}
+
 
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
