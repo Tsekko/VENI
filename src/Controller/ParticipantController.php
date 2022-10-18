@@ -27,10 +27,32 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/monprofil', name: 'app_monprofil')]
-    public function monProfil(): Response
+    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AuthentificationAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = $this ->getUser();
         $form = $this->createForm(ProfilType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+/*            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );*/
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+        }
 
         return $this->render('participant/monProfil.html.twig', [
             'monProfilForm' => $form->createView(),
