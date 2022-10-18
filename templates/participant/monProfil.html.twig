@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <h1>Mon Profil</h1>
+    {{ form_start(monProfilForm) }}
+    {{ form_row(monProfilForm.mail) }}
+    {{ form_row(monProfilForm.pseudo) }}
+    {{ form_row(monProfilForm.password) }}
+    <button type="submit" class="btn">Enregistrer</button>
+    {{ form_end(monProfilForm) }}
+{% endblock %}
