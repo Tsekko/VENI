@@ -1,0 +1,14 @@
+<div class="navbar">
+    <h1>VENI</h1>
+    <div class="navbar-items">
+        <a href={{ path('app_home') }}>Accueil</a>
+        <a href="">Villes</a>
+        <a href="">Sites</a>
+        {% if app.user != null %}
+        <a href="">Mon profil</a>
+        <a href={{ path('app_logout') }}>Se déconnecter</a>
+        {% else %}
+        <a href={{ path('app_login') }}>Se connecter</a>
+        {% endif %}
+    </div>
+</div>
