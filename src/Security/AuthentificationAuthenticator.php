@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,7 @@ class AuthentificationAuthenticator extends AbstractLoginFormAuthenticator
     {
         $pseudo = $request->request->get('pseudo', '');
 
+
         $request->getSession()->set(Security::LAST_USERNAME, $pseudo);
 
         return new Passport(
@@ -45,9 +47,33 @@ class AuthentificationAuthenticator extends AbstractLoginFormAuthenticator
         // if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
         //     return new RedirectResponse($targetPath);
         // }
+        // Attribution de la valeur de la checkbox à une variable
+        $remember = $request->request->get('_remember_me');
+        $cookie = null;
+        $date = new \DateTime('+1 week');
 
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        // On prépare en amont la réponse qui va rediriger vers la page d'accueil
+        $response = new RedirectResponse(
+            $this->urlGenerator->generate('app_home')
+        );
+
+        // Si la checkbox a été cochée, on crée un cookie qui va stocker le pseudo entré et on l'ajoute à la réponse
+        if ($remember != null) {
+            $cookie = Cookie::create('user')
+                ->withValue($request->request->get('pseudo'))
+                ->withExpires($date)
+                ->withDomain('localhost')
+                ->withSecure(true);
+            $response->headers->setCookie($cookie);
+        } else {
+            // Dans le cas contraire et s'il existe un cookie user, on le supprime
+            if ($request->cookies->get('user') != null) {
+                $response->headers->clearCookie('user');
+            }
+        }
+
+        // Envoi de la réponse
+        return $response;
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
