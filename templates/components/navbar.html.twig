@@ -5,7 +5,7 @@
         <a href="">Villes</a>
         <a href="">Sites</a>
         {% if app.user != null %}
-        <a href="">Mon profil</a>
+        <a href={{ path('app_monprofil') }}>Mon profil</a>
         <a href={{ path('app_logout') }}>Se déconnecter</a>
         {% else %}
         <a href={{ path('app_login') }}>Se connecter</a>

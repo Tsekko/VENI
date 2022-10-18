@@ -36,5 +36,23 @@ class AppFixtures extends Fixture
         $manager->persist($site);
         $manager->persist($user);
         $manager->flush();
+
+        $site = new Site();
+        $site->setNom("Chartres-de-Bretagne");
+
+        $user = new Participant();
+        $user->setMail("fabrice.hure.35@gmail.com");
+        $user->setPseudo("Bibiss");
+        $user->setNom("Huré");
+        $user->setPrenom("Fabrice");
+        $user->setRoles(["ROLE_USER"]);
+        $user->setSite($site);
+        $password = "bonjour";
+        $user->setPassword($this->encoder->encodePassword($user, $password));
+        $user->setAdministrateur(0);
+        $user->setActif(1);
+        $manager->persist($site);
+        $manager->persist($user);
+        $manager->flush();
     }
 }
