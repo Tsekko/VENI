@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\ProfilType;
 use App\Security\AuthentificationAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,14 +54,13 @@ class ParticipantController extends AbstractController
 
         elseif ($form->isSubmitted() && !$form->isValid()) {
 
-
             $this->addFlash('error', 'Le formulaire n\'est pas valide : Le mail est déjà utilisé');
             return $this->redirectToRoute('app_home');
 
         }
 
         return $this->render('participant/monProfil.html.twig', [
-            'monProfilForm' => $form->createView(),
+            'monProfilForm' => $form->createView()
         ]);
 
     }
