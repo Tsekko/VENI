@@ -47,6 +47,7 @@ class AuthentificationAuthenticator extends AbstractLoginFormAuthenticator
         // if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
         //     return new RedirectResponse($targetPath);
         // }
+
         // Attribution de la valeur de la checkbox à une variable
         $remember = $request->request->get('_remember_me');
         $cookie = null;
@@ -74,6 +75,7 @@ class AuthentificationAuthenticator extends AbstractLoginFormAuthenticator
 
         // Envoi de la réponse
         return $response;
+
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

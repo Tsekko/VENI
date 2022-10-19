@@ -16,6 +16,7 @@ class AuthentificationController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
+
         $remember = null;
         $lastUsername = '';
 
