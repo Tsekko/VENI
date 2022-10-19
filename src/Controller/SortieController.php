@@ -48,7 +48,7 @@ class SortieController extends AbstractController
                 // L'utilisateur connecté est set en tant qu'organisateur
                 $sortie->setOrganisateur($this->getUser());
                 // On l'inscrit d'office à la sortie
-                $sortie->getParticipants()->add($this->getUser());
+                $sortie->addParticipant($this->getUser());
                 $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouverte"]);
                 $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
