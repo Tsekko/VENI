@@ -5,5 +5,53 @@
 {% block body %}
     <div>
         <h1>Bienvenue sur VENI !</h1>
+        <h2>Liste de sorties</h2>
+
+
+        <table>
+            <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut | date('d-m-Y') }}</td>
+                    <td>{{ sortie.dateLimiteInscription | date('d-m-Y') }}</td>
+                    <td> nb Participant / {{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.nom }}</td>
+                    {#                {% if app.user %}#}
+                    {#                    {% if participant.inscrits %}#}
+                    <td>Inscrit</td>
+                    {#                    {% else %}#}
+                    {#                        <td> Non inscrit</td>#}
+                    {#                    {% endif %}#}
+                    {#                {% else %}#}
+                    {#                    <td> Non inscrit</td>#}
+                    {#                {% endif %}#}
+                    <td>{{ sortie.organisateur.nom }}</td>
+                    {% if app.user %}
+                        {% if sortie.etat.nom == "En création" %}
+                            <td> <a href="{{ path('app_details', {'id': sortie.id}) }}">Modifier</a> / Se désister </td>
+                        {% else %}
+                            <td> <a href="{{ path('app_details', {'id': sortie.id}) }}">Afficher</a> / Se désister </td>
+                        {% endif %}
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
