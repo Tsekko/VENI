@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +28,6 @@ class AuthentificationAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         $pseudo = $request->request->get('pseudo', '');
-
 
         $request->getSession()->set(Security::LAST_USERNAME, $pseudo);
 
