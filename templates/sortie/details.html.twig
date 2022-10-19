@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <h1>Détails : {{ sortie.nom }}</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom de la sortie : </th>
+            <th>Date et heure de la sortie : </th>
+            <th>Date limite d'inscription : </th>
+            <th>Nombre de places : </th>
+            <th>Durée : </th>
+            <th>Infos de la sortie : </th>
+            <th>Lieu : </th>
+            <th>Rue : </th>
+            <th>Ville : </th>
+            <th>Code Postal : </th>
+            <th>Latitude : </th>
+            <th>Longitude : </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut | date('d-m-Y') }}</td>
+                <td>{{ sortie.dateLimiteInscription | date('d-m-Y') }}</td>
+                <td> {{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.etat.nom }}</td>
+                <td>{{ sortie.infosSortie}}</td>
+                <td>{{ sortie.lieu.nom }}</td>
+                <td>{{ sortie.lieu.rue }}</td>
+                <td>{{ sortie.lieu.ville.nom }}</td>
+                <td>{{ sortie.lieu.ville.codePostal }}</td>
+                <td>{{ sortie.lieu.latitude }}</td>
+                <td>{{ sortie.lieu.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Liste des participants inscrits</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participant in sortie.participants %}
+            <tr>
+                <td>{{ participant.pseudo }}</td>
+                <td> {{ participant.prenom }} / {{ participant.nom }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Liste
+{% endblock %}
+
+
