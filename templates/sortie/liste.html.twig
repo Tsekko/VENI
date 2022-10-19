@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste de sorties</h1>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+        </tr>
+        {% for sortie in sorties %}
+            <a href="{{ path('app_liste', {'id': sortie.id}) }}">{{ sortie.nom }}</a>
+            {{ sortie.dateHeureDebut | date('d-m-Y') }}
+            {{ sortie.duree }}
+            {{ sortie.dateLimiteInscription | date('d-m-Y') }}
+            {{ sortie.nbInscriptionsMax }}
+            {{ sortie.infosSortie }}
+            {{ sortie.etat.nom }}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | List
+{% endblock %}
+
+

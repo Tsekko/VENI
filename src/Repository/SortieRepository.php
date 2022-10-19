@@ -39,6 +39,9 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+//    public function findAll(Sortie $sortie):array {
+//        return $this->findBy(array(), array('nom'=> 'ASC'));
+//    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
