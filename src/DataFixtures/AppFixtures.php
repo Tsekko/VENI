@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
 
         $site = new Site();
         $site->setNom("Chartres-de-Bretagne");
+        $manager->persist($site);
 
         $user = new Participant();
         $user->setMail("maxime.kervadec@gmail.com");
@@ -37,60 +38,11 @@ class AppFixtures extends Fixture
         $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setAdministrateur(0);
         $user->setActif(1);
-
-        $manager->persist($site);
         $manager->persist($user);
-        $manager->flush();
-
-        $ville = new Ville();
-        $ville->setNom("Rennes");
-        $ville->setCodePostal("35000");
-
-        $etat = new Etat();
-        $etat->setNom("Créée");
-
-        $etat2 = new Etat();
-        $etat2->setNom("Ouverte");
-
-        $lieu = new Lieu();
-        $lieu->setNom("Place Saint-Anne");
-        $lieu->setRue("27 Rue Legraverend");
-        $lieu->setLatitude("48.11448");
-        $lieu->setLongitude("-1.680525");
-        $lieu->setVille($ville);
-
-        $sortie = new Sortie();
-        $sortie->setNom("Sortie au bar");
-        $sortie->setDateHeureDebut(new \DateTime('11/11/2022'));
-        $sortie->setDuree("120");
-        $sortie->setDateLimiteInscription(new \DateTime('09/11/2022'));
-        $sortie->setNbInscriptionsMax("25");
-        $sortie->setInfosSortie("Une nouvelle sortie s'annonce");
-        $sortie->setEtat($etat);
-        $sortie->setOrganisateur($user);
-        $sortie->setLieu($lieu);
-
-        $sortie2 = new Sortie();
-        $sortie2->setNom("Sortie au bowling");
-        $sortie2->setDateHeureDebut(new \DateTime('11/18/2022'));
-        $sortie2->setDuree("120");
-        $sortie2->setDateLimiteInscription(new \DateTime('11/16/2022'));
-        $sortie2->setNbInscriptionsMax("25");
-        $sortie2->setInfosSortie("Une nouvelle sortie s'annonce");
-        $sortie2->setOrganisateur($user);
-        $sortie2->setEtat($etat2);
-        $sortie2->setLieu($lieu);
-
-
-        $manager->persist($ville);
-        $manager->persist($etat);
-        $manager->persist($etat2);
-        $manager->persist($lieu);
-        $manager->persist($sortie);
-        $manager->persist($sortie2);
 
         $site1 = new Site();
-        $site1->setNom("Chartres-de-Bretagne");
+        $site1->setNom("Nantes");
+        $manager->persist($site1);
 
         $user1 = new Participant();
         $user1->setMail("fabrice.hure.35@gmail.com");
@@ -103,8 +55,57 @@ class AppFixtures extends Fixture
         $user1->setPassword($this->encoder->encodePassword($user, $password));
         $user1->setAdministrateur(0);
         $user1->setActif(1);
-        $manager->persist($site1);
         $manager->persist($user1);
+
+
+        $ville = new Ville();
+        $ville->setNom("Rennes");
+        $ville->setCodePostal("35000");
+        $manager->persist($ville);
+
+
+        $etat = new Etat();
+        $etat->setNom("Créée");
+        $manager->persist($etat);
+
+        $etat2 = new Etat();
+        $etat2->setNom("Ouverte");
+        $manager->persist($etat2);
+
+        $lieu = new Lieu();
+        $lieu->setNom("Place Saint-Anne");
+        $lieu->setRue("27 Rue Legraverend");
+        $lieu->setLatitude("48.11448");
+        $lieu->setLongitude("-1.680525");
+        $lieu->setVille($ville);
+        $manager->persist($lieu);
+
+        $sortie = new Sortie();
+        $sortie->setNom("Sortie au bar");
+        $sortie->setDateHeureDebut(new \DateTime('11/11/2022'));
+        $sortie->setDuree("120");
+        $sortie->setDateLimiteInscription(new \DateTime('09/11/2022'));
+        $sortie->setNbInscriptionsMax("25");
+        $sortie->setInfosSortie("Une nouvelle sortie s'annonce");
+        $sortie->setEtat($etat);
+        $sortie->setOrganisateur($user);
+        $sortie->addParticipant($user1);
+        $sortie->setLieu($lieu);
+
+        $manager->persist($sortie);
+
+        $sortie2 = new Sortie();
+        $sortie2->setNom("Sortie au bowling");
+        $sortie2->setDateHeureDebut(new \DateTime('11/18/2022'));
+        $sortie2->setDuree("120");
+        $sortie2->setDateLimiteInscription(new \DateTime('11/16/2022'));
+        $sortie2->setNbInscriptionsMax("25");
+        $sortie2->setInfosSortie("Une nouvelle sortie s'annonce");
+        $sortie2->setOrganisateur($user);
+        $sortie2->setEtat($etat2);
+        $sortie2->setLieu($lieu);
+        $manager->persist($sortie2);
+
         $manager->flush();
     }
 }
