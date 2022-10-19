@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle sortie{% endblock %}
+
+{% block body %}
+    <h1>Créer une sortie</h1>
+    {{ form_start(sortieForm) }}
+    <div class="form">
+        {{ form_widget(sortieForm) }}
+    </div>
+
+    <button type="submit" class="btn">Publier la sortie</button>
+    <button href="{{ path('app_home') }}" class="btn">Annuler</button>
+    {{ form_end(sortieForm) }}
+{% endblock %}
