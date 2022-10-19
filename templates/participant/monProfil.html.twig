@@ -3,6 +3,7 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
+
     <h1>Mon Profil</h1>
     {{ form_start(monProfilForm) }}
     {{ form_row(monProfilForm.pseudo) }}
@@ -15,7 +16,7 @@
     {{ form_row(monProfilForm.password) }}
 
     <button type="submit" class="btn">Enregistrer</button>
-    <button href="{{ path('app_home') }}" class="btn">Annuler</button>
+    <a href="{{ path('app_home') }}" class="btn">Annuler</a>
     {{ form_end(monProfilForm) }}
 
 {% endblock %}

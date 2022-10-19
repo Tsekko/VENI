@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'Il y a déjà un compte existant avec ce pseudo !')]
 #[UniqueEntity(fields: ['mail'], message: 'Il y a déjà un compte existant avec ce mail !')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
