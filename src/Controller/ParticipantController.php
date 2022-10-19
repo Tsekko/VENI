@@ -27,33 +27,41 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/monprofil', name: 'app_monprofil')]
-    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AuthentificationAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this ->getUser();
-        $form = $this->createForm(ProfilType::class, $user);
+        $form = $this ->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('password')->getData()) {
                 // encode the plain password
-               $user->setPassword(
-                   $userPasswordHasher->hashPassword(
-                       $user,
-                       $form->get('password')->getData()
-                   )
-               );
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
             }
 
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            $this->addFlash('succes', 'Les modifications ont bien été faites');
+            return $this->redirectToRoute('app_monprofil');
+
+//            return $this->render('participant/monProfil.html.twig', [
+//                'monProfilForm' => $form->createView()
+//            ]);
+
+
+//            return $userAuthenticator->authenticateUser(
+//                $user,
+//                $authenticator,
+//                $request
+
         }
 
         return $this->render('participant/monProfil.html.twig', [
