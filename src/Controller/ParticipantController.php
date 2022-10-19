@@ -2,12 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
-use App\Entity\User;
 use App\Form\ProfilType;
-use App\Form\RegistrationFormType;
 use App\Security\AuthentificationAuthenticator;
-use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,37 +23,46 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/monprofil', name: 'app_monprofil')]
-    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AuthentificationAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, AuthentificationAuthenticator $authenticator,UserAuthenticatorInterface $userAuthenticator ): Response
     {
         $user = $this ->getUser();
-        $form = $this->createForm(ProfilType::class, $user);
+        $form = $this ->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             if ($form->get('password')->getData()) {
                 // encode the plain password
-               $user->setPassword(
-                   $userPasswordHasher->hashPassword(
-                       $user,
-                       $form->get('password')->getData()
-                   )
-               );
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $this->addFlash('succes', 'Le mot de passe a bien été changé');
+
             }
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            $this->addFlash('succes', 'Les modifications ont bien été faites');
+            return $this->redirectToRoute('app_monprofil');
+        }
+
+        elseif ($form->isSubmitted() && !$form->isValid()) {
+
+
+            $this->addFlash('error', 'Le formulaire n\'est pas valide : Le mail est déjà utilisé');
+            return $this->redirectToRoute('app_home');
+
         }
 
         return $this->render('participant/monProfil.html.twig', [
             'monProfilForm' => $form->createView(),
         ]);
+
     }
+
 }
