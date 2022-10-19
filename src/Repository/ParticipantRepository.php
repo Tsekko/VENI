@@ -56,6 +56,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->save($user, true);
     }
 
+
 //    /**
 //     * @return Participant[] Returns an array of Participant objects
 //     */
