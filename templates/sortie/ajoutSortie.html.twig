@@ -40,8 +40,9 @@
     </div>
 
         <div class="form-buttons">
-            <button type="submit" class="btn">Publier la sortie</button>
-            <button href="{{ path('app_home') }}" class="btn">Annuler</button>
+            {{ form_widget(sortieForm.enregistrer) }}
+            {{ form_widget(sortieForm.publier) }}
+            <a href="{{ path('app_home') }}" class="btn">Annuler</a>
         </div>
 
         {{ form_end(sortieForm) }}
