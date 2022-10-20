@@ -26,7 +26,9 @@ class SortieController extends AbstractController
         //$sorties = $sortieRepository->findAll();
 
         return $this->render('sortie/details.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'controller_name' => 'MainController',
+            'user' => $this->getUser()
         ]);
     }
 
@@ -65,4 +67,41 @@ class SortieController extends AbstractController
             'sortieForm' => $form->createView(),
         ]);
     }
+
+    #[Route('/sinscrire/{id}', name: 'sinscrire', requirements: ['id' => '\d+'])]
+    #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
+    public function sinscrire(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        // L'utilisateur connecté est set en tant que participant
+        $sortie->addParticipant($this->getUser());
+
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->render('sortie/details.html.twig', [
+            'sortie' => $sortie,
+            'controller_name' => 'MainController',
+            'user' => $this->getUser()
+        ]);
+    }
+
+    #[Route('/desister/{id}', name: 'desister', requirements: ['id' => '\d+'])]
+    #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
+    public function desister(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+
+        // L'utilisateur connecté est désister en tant que participant
+        $sortie->removeParticipant($this->getUser());
+
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->render('sortie/details.html.twig', [
+            'sortie' => $sortie,
+            'controller_name' => 'MainController',
+            'user' => $this->getUser()
+        ]);
+    }
+
 }

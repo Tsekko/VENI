@@ -27,6 +27,18 @@ class AppFixtures extends Fixture
         $site->setNom("Chartres-de-Bretagne");
         $manager->persist($site);
 
+        $site1 = new Site();
+        $site1->setNom("Nantes");
+        $manager->persist($site1);
+
+        $site2 = new Site();
+        $site2->setNom("Quimper");
+        $manager->persist($site2);
+
+        $site3 = new Site();
+        $site3->setNom("Niort");
+        $manager->persist($site3);
+
         $user = new Participant();
         $user->setMail("maxime.kervadec@gmail.com");
         $user->setPseudo("Gecko");
@@ -40,9 +52,6 @@ class AppFixtures extends Fixture
         $user->setActif(1);
         $manager->persist($user);
 
-        $site1 = new Site();
-        $site1->setNom("Nantes");
-        $manager->persist($site1);
 
         $user1 = new Participant();
         $user1->setMail("fabrice.hure.35@gmail.com");
@@ -57,20 +66,64 @@ class AppFixtures extends Fixture
         $user1->setActif(1);
         $manager->persist($user1);
 
+        $user2 = new Participant();
+        $user2->setMail("marieocelline@hotmail.fr");
+        $user2->setPseudo("Mario");
+        $user2->setNom("Ceschino");
+        $user2->setPrenom("Marie");
+        $user2->setRoles(["ROLE_USER", "ROLE_ADMIN"]);
+        $user2->setSite($site);
+        $password = "12345678";
+        $user2->setPassword($this->encoder->encodePassword($user, $password));
+        $user2->setAdministrateur(1);
+        $user2->setActif(1);
+        $manager->persist($user2);
+
+        $user3 = new Participant();
+        $user3->setMail("delphine.lemee@gmail.fr");
+        $user3->setPseudo("Dede");
+        $user3->setNom("Le Mée");
+        $user3->setPrenom("Delphine");
+        $user3->setRoles(["ROLE_USER"]);
+        $user3->setSite($site);
+        $password = "12345678";
+        $user3->setPassword($this->encoder->encodePassword($user, $password));
+        $user3->setAdministrateur(0);
+        $user3->setActif(1);
+        $manager->persist($user3);
+
 
         $ville = new Ville();
         $ville->setNom("Rennes");
         $ville->setCodePostal("35000");
         $manager->persist($ville);
 
+        $ville1 = new Ville();
+        $ville1->setNom("Saint-Malo");
+        $ville1->setCodePostal("35400");
+        $manager->persist($ville1);
+
 
         $etat = new Etat();
-        $etat->setNom("Créée");
+        $etat->setNom("En création");
         $manager->persist($etat);
 
         $etat2 = new Etat();
-        $etat2->setNom("Ouverte");
+        $etat2->setNom("Ouvert");
         $manager->persist($etat2);
+
+        $etat3 = new Etat();
+        $etat3->setNom("En cours");
+        $manager->persist($etat3);
+
+        $etat4 = new Etat();
+        $etat4->setNom("Fermé");
+        $manager->persist($etat4);
+
+        $etat5 = new Etat();
+        $etat5->setNom("Annulée");
+        $manager->persist($etat5);
+
 
         $lieu = new Lieu();
         $lieu->setNom("Place Saint-Anne");
@@ -79,6 +132,30 @@ class AppFixtures extends Fixture
         $lieu->setLongitude("-1.680525");
         $lieu->setVille($ville);
         $manager->persist($lieu);
+
+        $lieu1 = new Lieu();
+        $lieu1->setNom("Cinéma Gaumont");
+        $lieu1->setRue("Esplanade Charles de Gaulle");
+        $lieu1->setLatitude("48.106123");
+        $lieu1->setLongitude("-361.675681");
+        $lieu1->setVille($ville);
+        $manager->persist($lieu1);
+
+        $lieu2 = new Lieu();
+        $lieu2->setNom("Plage du Sillon");
+        $lieu2->setRue("Chaussée du Sillon");
+        $lieu2->setLatitude("48.659385");
+        $lieu2->setLongitude("-361.999362");
+        $lieu2->setVille($ville1);
+        $manager->persist($lieu2);
+
+        $lieu3 = new Lieu();
+        $lieu3->setNom("Salle Glaz Arena");
+        $lieu3->setRue("Chemin du Bois de la Justice");
+        $lieu3->setLatitude("48.113577");
+        $lieu3->setLongitude("-361.595531");
+        $lieu3->setVille($ville);
+        $manager->persist($lieu3);
 
         $sortie = new Sortie();
         $sortie->setNom("Sortie au bar");
@@ -89,9 +166,10 @@ class AppFixtures extends Fixture
         $sortie->setInfosSortie("Une nouvelle sortie s'annonce");
         $sortie->setEtat($etat);
         $sortie->setOrganisateur($user);
+        $sortie->addParticipant($user);
         $sortie->addParticipant($user1);
+        $sortie->addParticipant($user3);
         $sortie->setLieu($lieu);
-
         $manager->persist($sortie);
 
         $sortie2 = new Sortie();
@@ -102,9 +180,59 @@ class AppFixtures extends Fixture
         $sortie2->setNbInscriptionsMax("25");
         $sortie2->setInfosSortie("Une nouvelle sortie s'annonce");
         $sortie2->setOrganisateur($user);
+        $sortie2->addParticipant($user);
+        $sortie2->addParticipant($user2);
+        $sortie2->addParticipant($user3);
         $sortie2->setEtat($etat2);
         $sortie2->setLieu($lieu);
         $manager->persist($sortie2);
+
+        $sortie3 = new Sortie();
+        $sortie3->setNom("Cinéma");
+        $sortie3->setDateHeureDebut(new \DateTime('01/14/2023'));
+        $sortie3->setDuree("90");
+        $sortie3->setDateLimiteInscription(new \DateTime('01/10/2023'));
+        $sortie3->setNbInscriptionsMax("25");
+        $sortie3->setInfosSortie("Une soirée au cinéma");
+        $sortie3->setOrganisateur($user);
+        $sortie3->addParticipant($user);
+        $sortie3->addParticipant($user1);
+        $sortie3->addParticipant($user2);
+        $sortie3->addParticipant($user3);
+        $sortie3->setEtat($etat);
+        $sortie3->setLieu($lieu1);
+        $manager->persist($sortie3);
+
+        $sortie4 = new Sortie();
+        $sortie4->setNom("Balade");
+        $sortie4->setDateHeureDebut(new \DateTime('09/14/2022'));
+        $sortie4->setDuree("120");
+        $sortie4->setDateLimiteInscription(new \DateTime('09/11/2022'));
+        $sortie4->setNbInscriptionsMax("25");
+        $sortie4->setInfosSortie("Balade à Saint Malo");
+        $sortie4->setOrganisateur($user);
+        $sortie4->addParticipant($user);
+        $sortie4->addParticipant($user1);
+        $sortie4->addParticipant($user2);
+        $sortie4->setEtat($etat4);
+        $sortie4->setLieu($lieu2);
+        $manager->persist($sortie4);
+
+        $sortie5 = new Sortie();
+        $sortie5->setNom("Match de basket");
+        $sortie5->setDateHeureDebut(new \DateTime('09/03/2022'));
+        $sortie5->setDuree("120");
+        $sortie5->setDateLimiteInscription(new \DateTime('09/01/2022'));
+        $sortie5->setNbInscriptionsMax("25");
+        $sortie5->setInfosSortie("Balade à Saint Malo");
+        $sortie5->setOrganisateur($user2);
+        $sortie5->addParticipant($user2);
+        $sortie5->addParticipant($user);
+        $sortie5->addParticipant($user1);
+        $sortie5->setEtat($etat5);
+        $sortie5->setLieu($lieu3);
+        $manager->persist($sortie5);
+
 
         $manager->flush();
     }
