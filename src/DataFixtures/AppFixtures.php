@@ -20,8 +20,6 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
 
         $site = new Site();
         $site->setNom("Chartres-de-Bretagne");
@@ -170,6 +168,7 @@ class AppFixtures extends Fixture
         $sortie->addParticipant($user1);
         $sortie->addParticipant($user3);
         $sortie->setLieu($lieu);
+        $sortie->setArchive(false);
         $manager->persist($sortie);
 
         $sortie2 = new Sortie();
@@ -185,6 +184,7 @@ class AppFixtures extends Fixture
         $sortie2->addParticipant($user3);
         $sortie2->setEtat($etat2);
         $sortie2->setLieu($lieu);
+        $sortie2->setArchive(false);
         $manager->persist($sortie2);
 
         $sortie3 = new Sortie();
@@ -201,11 +201,13 @@ class AppFixtures extends Fixture
         $sortie3->addParticipant($user3);
         $sortie3->setEtat($etat);
         $sortie3->setLieu($lieu1);
+        $sortie3->setArchive(false);
         $manager->persist($sortie3);
 
         $sortie4 = new Sortie();
         $sortie4->setNom("Balade");
         $sortie4->setDateHeureDebut(new \DateTime('09/14/2022'));
+
         $sortie4->setDuree(120);
         $sortie4->setDateLimiteInscription(new \DateTime('09/11/2022'));
         $sortie4->setNbInscriptionsMax(25);
@@ -216,6 +218,7 @@ class AppFixtures extends Fixture
         $sortie4->addParticipant($user2);
         $sortie4->setEtat($etat4);
         $sortie4->setLieu($lieu2);
+        $sortie4->setArchive(false);
         $manager->persist($sortie4);
 
         $sortie5 = new Sortie();
@@ -231,8 +234,24 @@ class AppFixtures extends Fixture
         $sortie5->addParticipant($user1);
         $sortie5->setEtat($etat5);
         $sortie5->setLieu($lieu3);
+        $sortie5->setArchive(false);
         $manager->persist($sortie5);
 
+        $sortie6 = new Sortie();
+        $sortie6->setNom("Match de basket");
+        $sortie6->setDateHeureDebut(new \DateTime('01/09/2022'));
+        $sortie6->setDuree("120");
+        $sortie6->setDateLimiteInscription(new \DateTime('09/01/2023'));
+        $sortie6->setNbInscriptionsMax("25");
+        $sortie6->setInfosSortie("Balade à Saint Malo");
+        $sortie6->setOrganisateur($user2);
+        $sortie6->addParticipant($user2);
+        $sortie6->addParticipant($user);
+        $sortie6->addParticipant($user1);
+        $sortie6->setEtat($etat4);
+        $sortie6->setLieu($lieu2);
+        $sortie6->setArchive(false);
+        $manager->persist($sortie6);
 
         $manager->flush();
     }

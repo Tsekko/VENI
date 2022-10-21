@@ -47,7 +47,6 @@
                         </div>
                 </div>
             </div>
-
                     <div class="column">
                         <form class="box">
                             <div class="field">
@@ -93,8 +92,7 @@
     </div>
     </div>
 
-            <hr>
-
+       <hr>
     <h3 class="subtitle">Liste des participants inscrits</h3>
 
     <table class="table has-text-centered is-striped is-bordered">
@@ -109,10 +107,33 @@
             <tr>
                 <td>{{ participant.pseudo }}</td>
                 <td> {{ participant.nom }} {{ participant.prenom }}  </td>
+                <td>
+                    {% if user == participant and "now"|date('Y-m-d') < sortie.dateLimiteInscription|date('Y-m-d') %}
+                    <a href="{{ path('app_desister', {'id': sortie.id}) }}" class="btn">Se désister de cette sortie</a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
+
+    <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
+
+    {% set continue = false %}
+    {% for participant in sortie.participants %}
+        {% if user == participant %}
+            {% set continue = true %}
+        {% endif %}
+    {% endfor %}
+    {% if not continue %}
+        {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
+            <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a>
+        {% endif %}
+    {% endif %}
+
+
 {% endblock %}
 
 {% block title %}

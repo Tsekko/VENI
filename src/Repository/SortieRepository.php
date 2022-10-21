@@ -39,19 +39,6 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-
-//    public function participantsInscrit($value) {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.participants = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getResult();
-//
-//    }
-
-//    public function findAll(Sortie $sortie):array {
-//        return $this->findBy(array(), array('nom'=> 'ASC'));
-//    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
