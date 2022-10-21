@@ -16,8 +16,8 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-    <div class="container mt-2 ">
+    <body class="container mt-2 ">
+
         {% include ('components/navbar.html.twig') %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -27,6 +27,6 @@
             {% endfor %}
         {% endfor %}
         {% block body %}{% endblock %}
-    </div>
+
     </body>
 </html>
