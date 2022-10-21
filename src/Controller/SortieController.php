@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Entity\Etat;
+use App\Form\AnnulerSortieType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -53,9 +54,9 @@ class SortieController extends AbstractController
                 // On l'inscrit d'office à la sortie
                 $sortie->addParticipant($this->getUser());
                 if ($form->get('enregistrer')->isClicked()) {
-                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Créée"]);
+                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "En Création"]);
                 } elseif ($form->get('publier')->isClicked()){
-                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouverte"]);
+                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouvert"]);
                 }
                 $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
@@ -83,9 +84,9 @@ class SortieController extends AbstractController
                     throw new \Exception('La date limite d\'inscription ne peut être supérieure à celle de la sortie');
                 }
                 if ($form->get('publier')->isClicked()){
-                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouverte"]);
+                    $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouvert"]);
+                    $sortie->setEtat($etat);
                 }
-                $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
             } catch (\Exception $e) {
@@ -94,7 +95,7 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('sortie/ajoutSortie.html.twig', [
+        return $this->render('sortie/editerSortie.html.twig', [
             'sortieForm' => $form->createView(),
         ]);
     }
@@ -102,12 +103,51 @@ class SortieController extends AbstractController
     #[Route('/publier/{id}', name: 'publier', requirements: ['id' => '\d+'])]
     #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
     public function publier(Sortie $sortie, EntityManagerInterface $entityManager): Response {
-        $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouverte"]);
+        $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouvert"]);
         $sortie->setEtat($etat);
         $entityManager->persist($sortie);
         $entityManager->flush();
 
         // Redirection vers la home page une fois la mise à jour effectuée
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/delete/{id}', name: 'supprimer_sortie', requirements: ['id' => '\d+'])]
+    #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
+    public function supprimerSortie(Sortie $sortie, EntityManagerInterface $entityManager): Response {
+        try {
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+
+        return $this->redirectToRoute('app_home');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/cancel/{id}', name: 'annuler_sortie', requirements: ['id' => '\d+'])]
+    #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
+    public function annulerSortie(Sortie $sortie, EntityManagerInterface $entityManager, Request $request): Response {
+        $form = $this->createForm(AnnulerSortieType::class, $sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($sortie->getEtat()->getNom() != "Ouverte" && $sortie->getEtat()->getNom() != "Fermée") {
+                throw new \Exception('Vous ne pouvez pas annuler cette sortie');
+            }
+            $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Annulée']));
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('sortie/annulerSortie.html.twig', [
+            'sortie' => $sortie,
+            'annulerForm' => $form->createView()
+        ]);
     }
 }

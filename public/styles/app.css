@@ -20,6 +20,13 @@
     width: 95%;
 }
 
+.form-cancel {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    align-content: center;
+}
+
 .form-title {
     width: 95%;
     display: flex;
@@ -46,6 +53,10 @@
     justify-content: center;
     padding-top: 12px;
     gap: 8px;
+}
+
+.form-cancel-item {
+    align-self: center;
 }
 
 .container {
