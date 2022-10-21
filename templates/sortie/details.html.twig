@@ -3,47 +3,99 @@
 {% block body %}
 
 
-    <h1>Détails : {{ sortie.nom }}</h1>
+    <h1 class="title">Détails : {{ sortie.nom }}</h1>
+    <div class="columns">
+        <div class="column">
+            <div class="columns is-mobile">
+                <div class="column">
+                    <div class="box">
+                        <div class="field">
+                            <div class="label">Nom de la sortie :</div>
+                            <p >
+                                {{ sortie.nom }}
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="label">Date et heure de la sortie :</div>
+                            <p >
+                                {{ sortie.dateHeureDebut | date('d-m-Y') }}
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="label">Date limite d'inscription :</div>
+                            <p >
+                                {{ sortie.dateLimiteInscription | date('d-m-Y') }}
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="label">Nombre de places :</div>
+                            <p >
+                                {{ sortie.nbInscriptionsMax }}
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="label">Durée :</div>
+                            <p >
+                                {{ sortie.duree }}
+                            </p>
+                        </div>
+                        <div class="field">
+                            <div class="label">Infos de la sortie :</div>
+                            <p >
+                                {{ sortie.infosSortie}}
+                            </p>
+                        </div>
+                </div>
+            </div>
+                    <div class="column">
+                        <form class="box">
+                            <div class="field">
+                                <div class="label">Lieu :</div>
+                                <p >
+                                    {{ sortie.lieu.nom }}
+                                </p>
+                            </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Nom de la sortie : </th>
-            <th>Date et heure de la sortie : </th>
-            <th>Date limite d'inscription : </th>
-            <th>Nombre de places : </th>
-            <th>Durée : </th>
-            <th>Infos de la sortie : </th>
-            <th>Lieu : </th>
-            <th>Rue : </th>
-            <th>Ville : </th>
-            <th>Code Postal : </th>
-            <th>Latitude : </th>
-            <th>Longitude : </th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut | date('d-m-Y') }}</td>
-                <td>{{ sortie.dateLimiteInscription | date('d-m-Y') }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.etat.nom }}</td>
-                <td>{{ sortie.infosSortie}}</td>
-                <td>{{ sortie.lieu.nom }}</td>
-                <td>{{ sortie.lieu.rue }}</td>
-                <td>{{ sortie.lieu.ville.nom }}</td>
-                <td>{{ sortie.lieu.ville.codePostal }}</td>
-                <td>{{ sortie.lieu.latitude }}</td>
-                <td>{{ sortie.lieu.longitude }}</td>
-            </tr>
-        </tbody>
-    </table>
+                            <div class="field">
+                                <div class="label">Rue :</div>
+                                <p >
+                                    {{ sortie.lieu.rue }}
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="label">Ville :</div>
+                                <p >
+                                    {{ sortie.lieu.ville.nom }}
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="label">Code Postal :</div>
+                                <p >
+                                    {{ sortie.lieu.ville.codePostal }}
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="label">Latitude :</div>
+                                <p >
+                                    {{ sortie.lieu.latitude }}
+                                </p>
+                            </div>
+                            <div class="field">
+                                <div class="label">Longitude :</div>
+                                <p >
+                                    {{ sortie.lieu.longitude }}
+                                </p>
+                            </div>
+                        </form>
+            </div>
+        </div>
+    </div>
+    </div>
 
-    <h3>Liste des participants inscrits</h3>
+       <hr>
+    <h3 class="subtitle">Liste des participants inscrits</h3>
 
-    <table>
+    <table class="table has-text-centered is-striped is-bordered">
         <thead>
         <tr>
             <th>Pseudo</th>
@@ -54,7 +106,7 @@
         {% for participant in sortie.participants %}
             <tr>
                 <td>{{ participant.pseudo }}</td>
-                <td> {{ participant.prenom }} / {{ participant.nom }}</td>
+                <td> {{ participant.nom }} {{ participant.prenom }}  </td>
                 <td>
                     {% if user == participant and "now"|date('Y-m-d') < sortie.dateLimiteInscription|date('Y-m-d') %}
                     <a href="{{ path('app_desister', {'id': sortie.id}) }}" class="btn">Se désister de cette sortie</a>

@@ -20,8 +20,6 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
 
         $site = new Site();
         $site->setNom("Chartres-de-Bretagne");
@@ -95,12 +93,12 @@ class AppFixtures extends Fixture
 
         $ville = new Ville();
         $ville->setNom("Rennes");
-        $ville->setCodePostal("35000");
+        $ville->setCodePostal(35000);
         $manager->persist($ville);
 
         $ville1 = new Ville();
         $ville1->setNom("Saint-Malo");
-        $ville1->setCodePostal("35400");
+        $ville1->setCodePostal(35400);
         $manager->persist($ville1);
 
 
@@ -128,41 +126,41 @@ class AppFixtures extends Fixture
         $lieu = new Lieu();
         $lieu->setNom("Place Saint-Anne");
         $lieu->setRue("27 Rue Legraverend");
-        $lieu->setLatitude("48.11448");
-        $lieu->setLongitude("-1.680525");
+        $lieu->setLatitude(48.11448);
+        $lieu->setLongitude(-1.680525);
         $lieu->setVille($ville);
         $manager->persist($lieu);
 
         $lieu1 = new Lieu();
         $lieu1->setNom("Cinéma Gaumont");
         $lieu1->setRue("Esplanade Charles de Gaulle");
-        $lieu1->setLatitude("48.106123");
-        $lieu1->setLongitude("-361.675681");
+        $lieu1->setLatitude(48.106123);
+        $lieu1->setLongitude(-361.675681);
         $lieu1->setVille($ville);
         $manager->persist($lieu1);
 
         $lieu2 = new Lieu();
         $lieu2->setNom("Plage du Sillon");
         $lieu2->setRue("Chaussée du Sillon");
-        $lieu2->setLatitude("48.659385");
-        $lieu2->setLongitude("-361.999362");
+        $lieu2->setLatitude(48.659385);
+        $lieu2->setLongitude(-361.999362);
         $lieu2->setVille($ville1);
         $manager->persist($lieu2);
 
         $lieu3 = new Lieu();
         $lieu3->setNom("Salle Glaz Arena");
         $lieu3->setRue("Chemin du Bois de la Justice");
-        $lieu3->setLatitude("48.113577");
-        $lieu3->setLongitude("-361.595531");
+        $lieu3->setLatitude(48.113577);
+        $lieu3->setLongitude(-361.595531);
         $lieu3->setVille($ville);
         $manager->persist($lieu3);
 
         $sortie = new Sortie();
         $sortie->setNom("Sortie au bar");
         $sortie->setDateHeureDebut(new \DateTime('11/11/2022'));
-        $sortie->setDuree("120");
+        $sortie->setDuree(120);
         $sortie->setDateLimiteInscription(new \DateTime('09/11/2022'));
-        $sortie->setNbInscriptionsMax("25");
+        $sortie->setNbInscriptionsMax(25);
         $sortie->setInfosSortie("Une nouvelle sortie s'annonce");
         $sortie->setEtat($etat);
         $sortie->setOrganisateur($user);
@@ -176,11 +174,11 @@ class AppFixtures extends Fixture
         $sortie2 = new Sortie();
         $sortie2->setNom("Sortie au bowling");
         $sortie2->setDateHeureDebut(new \DateTime('11/18/2022'));
-        $sortie2->setDuree("120");
+        $sortie2->setDuree(120);
         $sortie2->setDateLimiteInscription(new \DateTime('11/16/2022'));
-        $sortie2->setNbInscriptionsMax("25");
+        $sortie2->setNbInscriptionsMax(25);
         $sortie2->setInfosSortie("Une nouvelle sortie s'annonce");
-        $sortie2->setOrganisateur($user);
+        $sortie2->setOrganisateur($user1);
         $sortie2->addParticipant($user);
         $sortie2->addParticipant($user2);
         $sortie2->addParticipant($user3);
@@ -192,9 +190,9 @@ class AppFixtures extends Fixture
         $sortie3 = new Sortie();
         $sortie3->setNom("Cinéma");
         $sortie3->setDateHeureDebut(new \DateTime('01/14/2023'));
-        $sortie3->setDuree("90");
+        $sortie3->setDuree(90);
         $sortie3->setDateLimiteInscription(new \DateTime('01/10/2023'));
-        $sortie3->setNbInscriptionsMax("25");
+        $sortie3->setNbInscriptionsMax(25);
         $sortie3->setInfosSortie("Une soirée au cinéma");
         $sortie3->setOrganisateur($user);
         $sortie3->addParticipant($user);
@@ -209,11 +207,12 @@ class AppFixtures extends Fixture
         $sortie4 = new Sortie();
         $sortie4->setNom("Balade");
         $sortie4->setDateHeureDebut(new \DateTime('09/14/2022'));
-        $sortie4->setDuree("120");
+
+        $sortie4->setDuree(120);
         $sortie4->setDateLimiteInscription(new \DateTime('09/11/2022'));
-        $sortie4->setNbInscriptionsMax("25");
+        $sortie4->setNbInscriptionsMax(25);
         $sortie4->setInfosSortie("Balade à Saint Malo");
-        $sortie4->setOrganisateur($user);
+        $sortie4->setOrganisateur($user1);
         $sortie4->addParticipant($user);
         $sortie4->addParticipant($user1);
         $sortie4->addParticipant($user2);
@@ -225,9 +224,9 @@ class AppFixtures extends Fixture
         $sortie5 = new Sortie();
         $sortie5->setNom("Match de basket");
         $sortie5->setDateHeureDebut(new \DateTime('09/03/2022'));
-        $sortie5->setDuree("120");
+        $sortie5->setDuree(120);
         $sortie5->setDateLimiteInscription(new \DateTime('09/01/2022'));
-        $sortie5->setNbInscriptionsMax("25");
+        $sortie5->setNbInscriptionsMax(25);
         $sortie5->setInfosSortie("Balade à Saint Malo");
         $sortie5->setOrganisateur($user2);
         $sortie5->addParticipant($user2);
@@ -253,7 +252,6 @@ class AppFixtures extends Fixture
         $sortie6->setLieu($lieu2);
         $sortie6->setArchive(false);
         $manager->persist($sortie6);
-
 
         $manager->flush();
     }

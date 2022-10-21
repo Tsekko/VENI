@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Sortie;
+use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use DateInterval;
 use DateTime;
@@ -13,8 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(SortieRepository $sortieRepository, EntityManagerInterface $entityManager): Response
+    public function index(SortieRepository $sortieRepository,  SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
     {
+        //liste déroulante des sites
+        $sites = $siteRepository->findAll();
+        
+        //liste des sorties actives
         $sorties = $sortieRepository->findBy(["archive" => false], ["dateHeureDebut" => "ASC"]);
 
         // On crée une date à partir de laquelle on pourra archiver les sorties
@@ -33,8 +39,10 @@ class MainController extends AbstractController
         // On lance la modification dans la base de données pour l'archivage des sorties
         $entityManager->flush();
 
+
         return $this->render('main/home.html.twig', [
             'sorties' => $sorties,
+            'sites' => $sites,
             'controller_name' => 'MainController',
         ]);
     }
