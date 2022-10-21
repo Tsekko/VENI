@@ -49,8 +49,13 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Participant $organisateur = null;
 
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motifAnnulation = null;
+
     #[ORM\Column]
     private ?bool $archive = null;
+
 
     public function __construct()
     {
@@ -197,6 +202,15 @@ class Sortie
         return $this;
     }
 
+    public function getMotifAnnulation(): ?string
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation(?string $motifAnnulation): self
+    {
+        $this->motifAnnulation = $motifAnnulation;
+
     public function isArchive(): ?bool
     {
         return $this->archive;
@@ -205,6 +219,7 @@ class Sortie
     public function setArchive(bool $archive): self
     {
         $this->archive = $archive;
+
 
         return $this;
     }

@@ -42,7 +42,7 @@
         <div class="form-buttons">
             {{ form_widget(sortieForm.enregistrer) }}
             {{ form_widget(sortieForm.publier) }}
-            <a href="{{ path('app_home') }}" class="btn">Annuler</a>
+            <button class="btn"><a href="{{ path('app_home') }}">Annuler</a></button>
         </div>
 
         {{ form_end(sortieForm) }}
