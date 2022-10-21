@@ -60,6 +60,7 @@ class SortieController extends AbstractController
                     $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Ouverte"]);
                 }
                 $sortie->setEtat($etat);
+                $sortie->setArchive(false);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
             } catch (\Exception $e) {
