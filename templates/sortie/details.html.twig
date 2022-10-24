@@ -130,15 +130,20 @@
         {% endfor %}
         {% if not continue %}
             {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
-                <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a>
+                <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a><br>
+            {% else %}
+                Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
             {% endif %}
         {% endif %}
     {% else %}
-        Cette sortie est pleine, il est impossible de s'ajouter à cette sortie.<br>
+        Cette sortie est pleine<br>
+        {% if "now"|date('Y-m-d') > sortie.dateLimiteInscription|date('Y-m-d') %}
+            Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
+        {% endif %}
     {% endif %}
-    {% if user == sortie.organisateur %}
-        <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
-    {% endif %}
+
+    <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
+
 
 {% endblock %}
 

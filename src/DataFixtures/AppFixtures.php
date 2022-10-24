@@ -175,8 +175,8 @@ class AppFixtures extends Fixture
         $sortie2->setNom("Sortie au bowling");
         $sortie2->setDateHeureDebut(new \DateTime('11/18/2022'));
         $sortie2->setDuree(120);
-        $sortie2->setDateLimiteInscription(new \DateTime('11/16/2022'));
-        $sortie2->setNbInscriptionsMax(25);
+        $sortie2->setDateLimiteInscription(new \DateTime('10/24/2022'));
+        $sortie2->setNbInscriptionsMax(3);
         $sortie2->setInfosSortie("Une nouvelle sortie s'annonce");
         $sortie2->setOrganisateur($user1);
         $sortie2->addParticipant($user);
