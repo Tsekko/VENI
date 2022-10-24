@@ -9,38 +9,38 @@
             <div class="columns is-mobile">
                 <div class="column">
                     <div class="box">
-                        <div class="field">
-                            <div class="label">Nom de la sortie :</div>
+                        <div class="field is-flex">
+                            <div class="label">Nom de la sortie : </div>
                             <p >
                                 {{ sortie.nom }}
                             </p>
                         </div>
-                        <div class="field">
-                            <div class="label">Date et heure de la sortie :</div>
+                        <div class="field is-flex">
+                            <div class="label">Date et heure de la sortie : </div>
                             <p >
                                 {{ sortie.dateHeureDebut | date('d-m-Y') }}
                             </p>
                         </div>
-                        <div class="field">
-                            <div class="label">Date limite d'inscription :</div>
+                        <div class="field is-flex">
+                            <div class="label">Date limite d'inscription : </div>
                             <p >
                                 {{ sortie.dateLimiteInscription | date('d-m-Y') }}
                             </p>
                         </div>
-                        <div class="field">
-                            <div class="label">Nombre de places :</div>
+                        <div class="field is-flex">
+                            <div class="label">Nombre de places : </div>
                             <p >
                                 {{ sortie.nbInscriptionsMax }}
                             </p>
                         </div>
-                        <div class="field">
-                            <div class="label">Durée :</div>
+                        <div class="field is-flex">
+                            <div class="label">Durée : </div>
                             <p >
                                 {{ sortie.duree }}
                             </p>
                         </div>
-                        <div class="field">
-                            <div class="label">Infos de la sortie :</div>
+                        <div class="field is-flex">
+                            <div class="label">Infos de la sortie : </div>
                             <p >
                                 {{ sortie.infosSortie}}
                             </p>
@@ -49,39 +49,39 @@
             </div>
                     <div class="column">
                         <form class="box">
-                            <div class="field">
-                                <div class="label">Lieu :</div>
+                            <div class="field is-flex">
+                                <div class="label">Lieu : </div>
                                 <p >
                                     {{ sortie.lieu.nom }}
                                 </p>
                             </div>
 
-                            <div class="field">
-                                <div class="label">Rue :</div>
+                            <div class="field is-flex">
+                                <div class="label">Rue : </div>
                                 <p >
                                     {{ sortie.lieu.rue }}
                                 </p>
                             </div>
-                            <div class="field">
-                                <div class="label">Ville :</div>
+                            <div class="field is-flex">
+                                <div class="label">Ville : </div>
                                 <p >
                                     {{ sortie.lieu.ville.nom }}
                                 </p>
                             </div>
-                            <div class="field">
-                                <div class="label">Code Postal :</div>
+                            <div class="field is-flex">
+                                <div class="label">Code Postal : </div>
                                 <p >
                                     {{ sortie.lieu.ville.codePostal }}
                                 </p>
                             </div>
-                            <div class="field">
-                                <div class="label">Latitude :</div>
+                            <div class="field is-flex">
+                                <div class="label">Latitude : </div>
                                 <p >
                                     {{ sortie.lieu.latitude }}
                                 </p>
                             </div>
-                            <div class="field">
-                                <div class="label">Longitude :</div>
+                            <div class="field is-flex">
+                                <div class="label">Longitude : </div>
                                 <p >
                                     {{ sortie.lieu.longitude }}
                                 </p>
@@ -118,8 +118,9 @@
     </table>
 
     <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
-
+    {% if user == sortie.organisateur %}
     <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
+    {% endif %}
 
     {% set continue = false %}
     {% for participant in sortie.participants %}

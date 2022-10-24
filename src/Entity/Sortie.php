@@ -211,6 +211,9 @@ class Sortie
     {
         $this->motifAnnulation = $motifAnnulation;
 
+        return $this;
+    }
+
     public function isArchive(): ?bool
     {
         return $this->archive;
