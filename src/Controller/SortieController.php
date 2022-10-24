@@ -114,8 +114,9 @@ class SortieController extends AbstractController
         $entityManager->persist($sortie);
         $entityManager->flush();
 
-        return $this->render('sortie/details.html.twig', [
+        return $this->redirectToRoute('app_details', [
             'sortie' => $sortie,
+            'id' => $sortie->getId(),
             'controller_name' => 'MainController',
             'user' => $this->getUser()
         ]);
@@ -132,8 +133,9 @@ class SortieController extends AbstractController
         $entityManager->persist($sortie);
         $entityManager->flush();
 
-        return $this->render('sortie/details.html.twig', [
+        return $this->redirectToRoute('app_details', [
             'sortie' => $sortie,
+            'id' => $sortie->getId(),
             'controller_name' => 'MainController',
             'user' => $this->getUser()
         ]);
