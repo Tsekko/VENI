@@ -108,7 +108,7 @@
                 <td>{{ participant.pseudo }}</td>
                 <td> {{ participant.nom }} {{ participant.prenom }}  </td>
                 <td>
-                    {% if user == participant and "now"|date('Y-m-d') < sortie.dateLimiteInscription|date('Y-m-d') %}
+                    {% if user == participant and "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
                     <a href="{{ path('app_desister', {'id': sortie.id}) }}" class="btn">Se désister de cette sortie</a>
                     {% endif %}
                 </td>
@@ -117,23 +117,28 @@
         </tbody>
     </table>
 
-    <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
+{#    or "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d')#}
+
+    {% if sortie.participants | length != sortie.nbInscriptionsMax  %}
+        <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
+
+        {% set continue = false %}
+        {% for participant in sortie.participants %}
+            {% if user == participant %}
+                {% set continue = true %}
+            {% endif %}
+        {% endfor %}
+        {% if not continue %}
+            {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
+                <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        Cette sortie est pleine, il est impossible de s'ajouter à cette sortie.<br>
+    {% endif %}
     {% if user == sortie.organisateur %}
-    <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
+        <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
     {% endif %}
-
-    {% set continue = false %}
-    {% for participant in sortie.participants %}
-        {% if user == participant %}
-            {% set continue = true %}
-        {% endif %}
-    {% endfor %}
-    {% if not continue %}
-        {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
-            <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a>
-        {% endif %}
-    {% endif %}
-
 
 {% endblock %}
 
