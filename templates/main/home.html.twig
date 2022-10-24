@@ -13,15 +13,14 @@
             {% endif %}
         </div>
 
-        <h2 class="subtitle" style=" margin-left:117px; margin-right:117px;">Filtrer les sorties</h2>
-
+        <h2 class="subtitle">Filtrer les sorties</h2>
 
         <div class="columns ">
             <div class="column">
                 <div class="columns is-mobile">
                     <div class="column">
                         {# [TODO] FORMULAIRE DE RECHERCHE #}
-                        <div class="field">
+                        <div class="field is-flex">
                             <div class="control">
                                 <label class="label" for="inputSite"> Site : </label>
                                 <select class="select is-multiple">
@@ -32,8 +31,9 @@
                             </div>
                         </div>
                         <div class="field">
-                            <div class="control">
+
                                 <label class="label" for="inputRequest"> Le nom de la sortie contient : </label>
+                                <div class="control">
                                 <input class="input is-info" type="text" placeholder="Le nom de la sortie contient">
                             </div>
                         </div>
@@ -41,12 +41,12 @@
                             <div class="control">
                             <label class="datetime">Entre : </label>
                                 <input type="date">
-
                             et
+
                             <label class="datetime1"> </label>
                                 <input type="date">
-
                             </div>
+
                         </div>
                     </div>
 
