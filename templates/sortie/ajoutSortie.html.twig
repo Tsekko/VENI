@@ -18,15 +18,15 @@
                 <div class="py-5">{{ form_label(sortieForm.infosSortie) }}</div>
             </div>
             <div class="column">
-                <div>{{ form_widget(sortieForm.nom) }}</div>
-                <div class="py-2">{{ form_widget(sortieForm.dateHeureDebut) }}</div>
-                <div>{{ form_widget(sortieForm.dateLimiteInscription) }}</div>
-                <div class="py-2">{{ form_widget(sortieForm.nbInscriptionsMax) }}</div>
-                <div>{{ form_widget(sortieForm.duree) }}</div>
-                <div class="py-2">{{ form_widget(sortieForm.infosSortie) }}</div>
+                <div>{{ form_widget(sortieForm.nom, {'attr': {'class': 'input'}}) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.dateHeureDebut, {'attr': {'class': 'input'}}) }}</div>
+                <div>{{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'input'}}) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.nbInscriptionsMax, {'attr': {'class': 'input'}}) }}</div>
+                <div>{{ form_widget(sortieForm.duree, {'attr': {'class': 'input'}}) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'textarea'}}) }}</div>
             </div>
         <div class="column is-one-fifth">
-            <div>{{ form_label(sortieForm.lieu) }}</div>
+            <div class="pt-2">{{ form_label(sortieForm.lieu) }}</div>
             <div class="pb-2 pt-4">Ville :</div>
             <div>Rue :</div>
             <div class="py-2">Code postal :</div>
@@ -34,7 +34,7 @@
             <div class="py-2">Longitude :</div>
         </div>
         <div class="column">
-            <div class="select is-small is-rounded">{{ form_widget(sortieForm.lieu) }}</div>
+            <div class="select is-rounded">{{ form_widget(sortieForm.lieu) }}</div>
             <div class="py-2" id="ville"></div>
             <div id="rue"></div>
             <div class="py-2" id="codePostal"></div>
