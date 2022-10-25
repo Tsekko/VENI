@@ -113,7 +113,7 @@
                 <td> {{ participant.nom }} {{ participant.prenom }}  </td>
                 <td>
                     {% if user == participant and "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d')
-                    and sortie.etat.id != "5" %}
+                    and sortie.etat.id != "5" and sortie.etat.id != "1" %}
                     <a href="{{ path('app_desister', {'id': sortie.id}) }}" class="btn">Se désister de cette sortie</a>
                     {% endif %}
                 </td>
@@ -122,7 +122,7 @@
         </tbody>
     </table>
 
-    {% if sortie.etat.id != "5" %}
+    {% if sortie.etat.id != "5" and sortie.etat.id != "1" %}
         {% if sortie.participants | length != sortie.nbInscriptionsMax  %}
             <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
 
@@ -133,7 +133,7 @@
                 {% endif %}
             {% endfor %}
             {% if not continue %}
-                {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') and sortie.etat.id != "5" %}
+                {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
                     <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a><br>
                 {% else %}
                     Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
@@ -145,8 +145,10 @@
                 Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
             {% endif %}
         {% endif %}
-    {% else %}
+    {% elseif sortie.etat.id == "5" %}
         le motif de l'annulation est : {{ sortie.motifAnnulation }}<br>
+    {% elseif sortie.etat.id == "1" %}
+        La sortie n'est pas encore publiée<br>
     {% endif %}
 
     <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>
