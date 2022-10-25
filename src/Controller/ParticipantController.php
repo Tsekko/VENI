@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ProfilType;
 use App\Security\AuthentificationAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/monprofil', name: 'app_monprofil')]
+    #[IsGranted(['ROLE_USER'])]
     public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, AuthentificationAuthenticator $authenticator,UserAuthenticatorInterface $userAuthenticator ): Response
     {
         $user = $this ->getUser();
@@ -40,14 +42,14 @@ class ParticipantController extends AbstractController
                         $form->get('password')->getData()
                     )
                 );
-                $this->addFlash('succes', 'Le mot de passe a bien été changé');
+                $this->addFlash('success', 'Le mot de passe a bien été changé');
 
             }
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('succes', 'Les modifications ont bien été faites');
+            $this->addFlash('success', 'Les modifications ont bien été faites');
             return $this->redirectToRoute('app_monprofil');
         }
 
