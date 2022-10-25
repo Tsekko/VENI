@@ -28,11 +28,11 @@
     <div class="field">
 
             <label class="label" for="inputPassword">Mot de passe</label>
-            <<div class="control">input type="password" placeholder="Mot de passe" name="password" id="inputPassword"
+            <div class="control">
+            <input type="password" placeholder="Mot de passe" name="password" id="inputPassword"
                    class="form-control input" autocomplete="current-password" required>
             <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+                   value="{{ csrf_token('authenticate') }}">
 
         </div>
     </div>
