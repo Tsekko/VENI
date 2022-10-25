@@ -4,19 +4,48 @@
 
 {% block body %}
 
-    <h1>Mon Profil</h1>
+    <h1 class="title is-flex is-justify-content-center">Mon Profil</h1>
+    <div class="container">
+        {% form_theme monProfilForm 'components/form/formTheme.html.twig' %}
     {{ form_start(monProfilForm) }}
-    <h2>{{ form_row(monProfilForm.pseudo) }}</h2>
-    {{ form_row(monProfilForm.prenom) }}
-    {{ form_row(monProfilForm.nom) }}
-    {{ form_row(monProfilForm.telephone) }}
-    {{ form_row(monProfilForm.mail) }}
-    {{ form_row(monProfilForm.site) }}
+        <div class="columns">
+        <div class="column">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column">
+                    <div>Pseudo :</div>
+                    <div class="pt-2">{{ form_label(monProfilForm.prenom) }}</div>
+                    <div class="py-4">{{ form_label(monProfilForm.nom) }}</div>
+                    <div>{{ form_label(monProfilForm.telephone) }}</div>
+                    <div class="py-4">{{ form_label(monProfilForm.mail) }}</div>
+                    <div>{{ form_label(monProfilForm.site) }}</div>
+                    <div class="py-4">{{ form_label(monProfilForm.password.first) }}</div>
+                    <div>{{ form_label(monProfilForm.password.second) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="columns">
+                <div class="column">
+                    <div>{{ profil.pseudo }}</div>
+                    <div>{{ form_widget(monProfilForm.prenom, {'attr': {'class': 'input'}}) }}</div>
+                    <div>{{ form_widget(monProfilForm.nom, {'attr': {'class': 'input'}}) }}</div>
+                    <div>{{ form_widget(monProfilForm.telephone, {'attr': {'class': 'input'}}) }}</div>
+                    <div>{{ form_widget(monProfilForm.mail, {'attr': {'class': 'input'}}) }}</div>
+                    <div class="select">{{ form_widget(monProfilForm.site) }}</div>
+                    <div>{{ form_widget(monProfilForm.password.first, {'attr': {'class': 'input'}}) }}</div>
+                    <div>{{ form_widget(monProfilForm.password.second, {'attr': {'class': 'input'}}) }}</div>
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
 
-    {{ form_row(monProfilForm.password) }}
 
-    <button type="submit" class="btn">Enregistrer</button>
-    <a href="{{ path('app_home') }}" class="btn">Annuler</a>
+    </div>
+        <div class="form-buttons">
+            <button type="submit" class="button is-success">Enregistrer</button>
+            <a href="{{ path('app_home') }}" class="button">Annuler</a>
+        </div>
     {{ form_end(monProfilForm) }}
-
+    </div>
 {% endblock %}

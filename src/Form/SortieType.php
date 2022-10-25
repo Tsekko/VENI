@@ -26,11 +26,13 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de la sortie :'
+                'label' => 'Nom de la sortie :',
+                'row_attr' => ['class' => 'input']
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
-                'date_widget' => 'single_text',
-                'time_widget' => 'text',
+                //'date_widget' => 'single_text',
+                //'time_widget' => 'single_text',
+                'widget' => 'single_text',
                 'label' => 'Date et heure de la sortie :',
                 'constraints' => [
                     new GreaterThan(
