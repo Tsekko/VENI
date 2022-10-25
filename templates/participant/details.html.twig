@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Profil de {{ participant.pseudo }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="title is-flex is-justify-content-center">{{ participant.pseudo }}</h1>
+    <div class="columns">
+        <div class="column">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column">
+                    <div>Prénom :</div>
+                    <div>Nom :</div>
+                    <div>Téléphone :</div>
+                    <div>Email :</div>
+                    <div>Site de rattachement :</div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="columns">
+                <div class="column">
+                    <div>{{ participant.prenom }}</div>
+                    <div>{{ participant.nom }}</div>
+                    <div>{{ participant.telephone ? participant.telephone : "Non renseigné" }}</div>
+                    <div>{{ participant.mail }}</div>
+                    <div>{{ participant.site.nom }}</div>
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+    <a class="button is-flex is-justify-content-center" href="{{ path('app_home') }}">Retour</a>
+{% endblock %}
