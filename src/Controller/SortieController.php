@@ -178,7 +178,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($sortie->getEtat()->getNom() != "Ouverte" && $sortie->getEtat()->getNom() != "Fermée") {
+            if ($sortie->getEtat()->getNom() != "Ouvert" && $sortie->getEtat()->getNom() != "Fermé") {
                 throw new \Exception('Vous ne pouvez pas annuler cette sortie');
             }
             $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Annulée']));

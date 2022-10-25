@@ -6,7 +6,6 @@
     <h1 class="title">Créer une sortie</h1>
 
     <div class="container">
-        {% form_theme sortieForm 'components/form/formTheme.html.twig' %}
         {{ form_start(sortieForm) }}
     <div class="columns">
             <div class="column">
@@ -44,8 +43,8 @@
     </div>
 
         <div class="form-buttons">
-            {{ form_widget(sortieForm.enregistrer) }}
-            {{ form_widget(sortieForm.publier) }}
+            {{ form_widget(sortieForm.enregistrer, {'attr': {'class': 'button'}}) }}
+            {{ form_widget(sortieForm.publier, {'attr': {'class': 'button is-success'}}) }}
             <a class="button is-danger" href="{{ path('app_home') }}">Annuler</a>
         </div>
 
