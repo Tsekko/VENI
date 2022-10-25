@@ -5,23 +5,36 @@ namespace App\Controller;
 use App\Form\ProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/participant', name: 'app_')]
 class ParticipantController extends AbstractController
 {
-    #[Route('/participant', name: 'app_participant')]
-    public function index(): Response
+    #[Route('/{id}', name: 'details_participant', requirements: ['id' => '\d+'])]
+    #[ParamConverter('participant', class:'App\Entity\Participant')]
+    public function index($participant = null): Response
     {
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
-        ]);
+        try {
+            if ($participant == null) {
+                throw new NotFoundHttpException('Ce profil n\'existe pas');
+            }
+
+            return $this->render('participant/details.html.twig', [
+                'participant' => $participant,
+            ]);
+        } catch (NotFoundHttpException $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_home');
+        }
     }
 
-    #[Route('/monprofil', name: 'app_monprofil')]
+    #[Route('/monprofil', name: 'monprofil')]
     #[IsGranted(['ROLE_USER'])]
     public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
