@@ -19,14 +19,16 @@
     <body class="container mt-2 ">
 
         {% include ('components/navbar.html.twig') %}
+
+        {% block body %}{% endblock %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash flash-{{ label }}">
+                <div class="pt-6">
+                <div class="flash-{{ label }} has-background-{{ label|replace({'error': 'danger'}) }} p-2 mr-6">
                     {{ message }}
+                </div>
                 </div>
             {% endfor %}
         {% endfor %}
-        {% block body %}{% endblock %}
-
     </body>
 </html>

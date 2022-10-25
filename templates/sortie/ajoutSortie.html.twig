@@ -47,6 +47,12 @@
             {{ form_widget(sortieForm.publier, {'attr': {'class': 'button is-success'}}) }}
             <a class="button is-danger" href="{{ path('app_home') }}">Annuler</a>
         </div>
+        <div>{{ form_errors(sortieForm.nom) }}</div>
+        <div>{{ form_errors(sortieForm.dateLimiteInscription) }}</div>
+        <div>{{ form_errors(sortieForm.dateHeureDebut) }}</div>
+        <div>{{ form_errors(sortieForm.nbInscriptionsMax) }}</div>
+        <div>{{ form_errors(sortieForm.duree) }}</div>
+        <div>{{ form_errors(sortieForm.infosSortie) }}</div>
 
         {{ form_end(sortieForm) }}
 
