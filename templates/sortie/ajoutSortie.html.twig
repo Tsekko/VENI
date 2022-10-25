@@ -3,49 +3,84 @@
 {% block title %}Nouvelle sortie{% endblock %}
 
 {% block body %}
-    <h1 class="form-title">Créer une sortie</h1>
+    <h1 class="title">Créer une sortie</h1>
 
     <div class="container">
+        {% form_theme sortieForm 'components/form/formTheme.html.twig' %}
         {{ form_start(sortieForm) }}
-    <div class="form">
-        <div class="form-left">
-            <div class="form-item">
-                <div>{{ form_label(sortieForm.nom) }}</div>
-                <div>{{ form_widget(sortieForm.nom) }}</div>
-            </div>
-            <div class="form-item">
-                <div>{{ form_label(sortieForm.dateHeureDebut) }}</div>
-                <div>{{ form_widget(sortieForm.dateHeureDebut) }}</div>
-            </div>
-            <div class="form-item">
+    <div class="columns">
+            <div class="column">
+                <div class="pt-2">{{ form_label(sortieForm.nom) }}</div>
+                <div class="py-5">{{ form_label(sortieForm.dateHeureDebut) }}</div>
                 <div>{{ form_label(sortieForm.dateLimiteInscription) }}</div>
-                <div>{{ form_widget(sortieForm.dateLimiteInscription) }}</div>
-            </div>
-            <div class="form-item">
-                <div>{{ form_label(sortieForm.nbInscriptionsMax) }}</div>
-                <div>{{ form_widget(sortieForm.nbInscriptionsMax) }}</div>
-            </div>
-            <div class="form-item">
+                <div class="py-5">{{ form_label(sortieForm.nbInscriptionsMax) }}</div>
                 <div>{{ form_label(sortieForm.duree) }}</div>
+                <div class="py-5">{{ form_label(sortieForm.infosSortie) }}</div>
+            </div>
+            <div class="column">
+                <div>{{ form_widget(sortieForm.nom) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.dateHeureDebut) }}</div>
+                <div>{{ form_widget(sortieForm.dateLimiteInscription) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.nbInscriptionsMax) }}</div>
                 <div>{{ form_widget(sortieForm.duree) }}</div>
+                <div class="py-2">{{ form_widget(sortieForm.infosSortie) }}</div>
             </div>
-            <div class="form-item">
-                <div>{{ form_label(sortieForm.infosSortie) }}</div>
-                <div>{{ form_widget(sortieForm.infosSortie) }}</div>
-            </div>
+        <div class="column is-one-fifth">
+            <div>{{ form_label(sortieForm.lieu) }}</div>
+            <div class="pb-2 pt-4">Ville :</div>
+            <div>Rue :</div>
+            <div class="py-2">Code postal :</div>
+            <div>Latitude :</div>
+            <div class="py-2">Longitude :</div>
         </div>
-        <div class="form-right">
-            {{ form_row(sortieForm.lieu) }}
+        <div class="column">
+            <div class="select is-small is-rounded">{{ form_widget(sortieForm.lieu) }}</div>
+            <div class="py-2" id="ville"></div>
+            <div id="rue"></div>
+            <div class="py-2" id="codePostal"></div>
+            <div id="latitude"></div>
+            <div class="py-2" id="longitude"></div>
         </div>
     </div>
 
         <div class="form-buttons">
             {{ form_widget(sortieForm.enregistrer) }}
             {{ form_widget(sortieForm.publier) }}
-            <button class="btn"><a href="{{ path('app_home') }}">Annuler</a></button>
+            <a class="button is-danger" href="{{ path('app_home') }}">Annuler</a>
         </div>
 
         {{ form_end(sortieForm) }}
+
+
+        <script>
+            const lieuSelected = document.getElementById('sortie_lieu');
+            const ville = document.getElementById('ville');
+            const rue = document.getElementById('rue');
+            const codePostal = document.getElementById('codePostal');
+            const latitude = document.getElementById('latitude');
+            const longitude = document.getElementById('longitude');
+
+            document.addEventListener('DOMContentLoaded', () => {
+                loadInformations();
+
+                lieuSelected.addEventListener('change', () => {
+                    loadInformations();
+                });
+            });
+
+            const loadInformations = async () => {
+                await fetch(`{{ path('app_lieu') }}${lieuSelected.options[lieuSelected.selectedIndex].value}`).then(responses => {
+                    responses.json().then(place => {
+                        ville.textContent = place?.ville?.nom ? place.ville.nom : '...';
+                        rue.textContent = place?.rue ? place.rue : '...';
+                        codePostal.textContent = place?.ville?.codePostal ? place.ville.codePostal : '...';
+                        latitude.textContent = place.latitude ? place.latitude : '...';
+                        longitude.textContent = place.longitude ? place.longitude : '...';
+                    });
+                });
+            };
+        </script>
     </div>
 
 {% endblock %}
+

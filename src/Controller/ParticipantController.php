@@ -61,6 +61,7 @@ class ParticipantController extends AbstractController
 
         return $this->render('participant/monProfil.html.twig', [
             'monProfilForm' => $form->createView(),
+            'profil' => $user
         ]);
 
     }
