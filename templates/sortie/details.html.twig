@@ -93,7 +93,11 @@
     </div>
 
        <hr>
+
+
     <h3 class="subtitle">Liste des participants inscrits</h3>
+
+
 
     <table class="table has-text-centered is-striped is-bordered">
         <thead>
@@ -108,7 +112,8 @@
                 <td>{{ participant.pseudo }}</td>
                 <td> {{ participant.nom }} {{ participant.prenom }}  </td>
                 <td>
-                    {% if user == participant and "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
+                    {% if user == participant and "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d')
+                    and sortie.etat.id != "5" %}
                     <a href="{{ path('app_desister', {'id': sortie.id}) }}" class="btn">Se désister de cette sortie</a>
                     {% endif %}
                 </td>
@@ -117,29 +122,31 @@
         </tbody>
     </table>
 
-{#    or "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d')#}
+    {% if sortie.etat.id != "5" %}
+        {% if sortie.participants | length != sortie.nbInscriptionsMax  %}
+            <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
 
-    {% if sortie.participants | length != sortie.nbInscriptionsMax  %}
-        <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
-
-        {% set continue = false %}
-        {% for participant in sortie.participants %}
-            {% if user == participant %}
-                {% set continue = true %}
+            {% set continue = false %}
+            {% for participant in sortie.participants %}
+                {% if user == participant %}
+                    {% set continue = true %}
+                {% endif %}
+            {% endfor %}
+            {% if not continue %}
+                {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') and sortie.etat.id != "5" %}
+                    <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a><br>
+                {% else %}
+                    Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
+                {% endif %}
             {% endif %}
-        {% endfor %}
-        {% if not continue %}
-            {% if "now"|date('Y-m-d') <= sortie.dateLimiteInscription|date('Y-m-d') %}
-                <a href="{{ path('app_sinscrire', {'id': sortie.id}) }}" class="btn">S'inscrire à cette sortie</a><br>
-            {% else %}
+        {% else %}
+            Cette sortie est pleine<br>
+            {% if "now"|date('Y-m-d') > sortie.dateLimiteInscription|date('Y-m-d') %}
                 Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
             {% endif %}
         {% endif %}
     {% else %}
-        Cette sortie est pleine<br>
-        {% if "now"|date('Y-m-d') > sortie.dateLimiteInscription|date('Y-m-d') %}
-            Il n'est plus possible de s'inscrire à cette sortie, la date limite est dépassée<br>
-        {% endif %}
+        le motif de l'annulation est : {{ sortie.motifAnnulation }}<br>
     {% endif %}
 
     <a href="{{ path('app_home') }}" class="btn">Annuler</a><br>

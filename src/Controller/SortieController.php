@@ -24,7 +24,6 @@ class SortieController extends AbstractController
     #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
     public function details(Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-        //
         //$sorties = $sortieRepository->findAll();
 
         return $this->render('sortie/details.html.twig', [
