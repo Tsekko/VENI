@@ -61,7 +61,7 @@ class ParticipantController extends AbstractController
             $file = $form['photoNom']->getData();
             if ($file)
             {
-                $filename = $uploadFile->upload($file);
+                $filename = $uploadFile->upload($file, $user->getPseudo());
                 $user->setPhotoNom($filename);
 
             }
