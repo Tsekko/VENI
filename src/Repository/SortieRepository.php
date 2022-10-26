@@ -111,7 +111,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('etat', 4);
     }
         $q = $q
-        ->orderBy('s.dateHeureDebut', 'DESC')
+        ->orderBy('s.dateHeureDebut', 'ASC')
         ->getQuery()
         ->getResult();
     return $q;
