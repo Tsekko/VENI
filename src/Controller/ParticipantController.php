@@ -35,7 +35,7 @@ class ParticipantController extends AbstractController
     }
 
     #[Route('/monprofil', name: 'monprofil')]
-    #[IsGranted(['ROLE_USER'])]
+    #[IsGranted('ROLE_USER')]
     public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this ->getUser();

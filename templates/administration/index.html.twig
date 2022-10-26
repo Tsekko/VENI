@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panneau d'administration{% endblock %}
+
+{% block body %}
+    <h1>Panneau d'administration</h1>
+    <div>
+        <div>Vous voulez :</div>
+        <a class="button" href="{{ path('app_administration_utilisateurs') }}">Gérer des utilisateurs</a>
+    </div>
+{% endblock %}
