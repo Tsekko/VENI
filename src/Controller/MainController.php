@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rechercher;
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\RechercherType;
 use App\Repository\SiteRepository;
@@ -36,6 +37,11 @@ class MainController extends AbstractController
         foreach ($sorties as $sortie) {
             if ($sortie->getDateHeureDebut() < $dateDepassee) {
                 $sortie->setArchive(true);
+                $entityManager->persist($sortie);
+            }
+            if ($sortie->getDateLimiteInscription() < $now) {
+                $etat = $entityManager->getRepository(Etat::class)->findOneBy(["nom" => "Fermé"]);
+                $sortie->setEtat($etat);
                 $entityManager->persist($sortie);
             }
         }

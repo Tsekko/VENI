@@ -3,17 +3,33 @@
 {% block title %}Annuler une sortie{% endblock %}
 
 {% block body %}
-    <h1 class="form-title">Annuler une sortie</h1>
-    <div class="form-cancel">
-        <div class="form-cancel-item">Nom de la sortie: {{ sortie.nom }}</div>
-        <div class="form-cancel-item">Date de la sortie: {{ sortie.dateHeureDebut|date("d/m/Y") }}</div>
-        <div class="form-cancel-item">Site organisateur: {{ sortie.organisateur.site.nom }}</div>
-        <div class="form-cancel-item">Lieu: {{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
+    <h1 class="title is-flex is-justify-content-center">Annuler une sortie</h1>
+    <div class="container">
         {{ form_start(annulerForm) }}
-        {{ form_widget(annulerForm) }}
+        <div class="columns">
+            <div class="column">
+                <div class="columns">
+                    <div class="column"></div>
+                    <div class="column">
+                        <div>Nom de la sortie:</div>
+                        <div class="py-2">Date de la sortie:</div>
+                        <div>Site organisateur:</div>
+                        <div class="py-2">Lieu:</div>
+                        <div>{{ form_label(annulerForm.motifAnnulation) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div>{{ sortie.nom }}</div>
+                <div class="py-2">{{ sortie.dateHeureDebut|date("d/m/Y") }}</div>
+                <div>{{ sortie.organisateur.site.nom }}</div>
+                <div class="py-2">{{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
+                <div>{{ form_widget(annulerForm.motifAnnulation, {'attr': {'class': 'textarea'}}) }}</div>
+            </div>
+        </div>
         <div class="form-buttons">
-            <button type="submit" class="btn">Enregistrer</button>
-            <button><a href="{{ path('app_home') }}">Annuler</a></button>
+            <button type="submit" class="button">Enregistrer</button>
+            <a class="button" href="{{ path('app_home') }}">Annuler</a>
         </div>
         {{ form_end(annulerForm) }}
     </div>
