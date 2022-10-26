@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ProfilType;
+use App\Service\UploadFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -36,10 +37,10 @@ class ParticipantController extends AbstractController
 
     #[Route('/monprofil', name: 'monprofil')]
     #[IsGranted('ROLE_USER')]
-    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UploadFile $uploadFile): Response
     {
-        $user = $this ->getUser();
-        $form = $this ->createForm(ProfilType::class, $user);
+        $user = $this->getUser();
+        $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,6 +55,14 @@ class ParticipantController extends AbstractController
                     )
                 );
                 $this->addFlash('success', 'Le mot de passe a bien été changé');
+
+            }
+
+            $file = $form['photoNom']->getData();
+            if ($file)
+            {
+                $filename = $uploadFile->upload($file);
+                $user->setPhotoNom($filename);
 
             }
 

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[UniqueEntity(fields: ['mail'], message: 'Il y a déjà un compte existant avec ce mail !')]
+//#[UniqueEntity(fields: ['mail'], message: 'Il y a déjà un compte existant avec ce mail !')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -58,6 +58,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $sorties;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoNom = null;
 
     public function __construct()
     {
@@ -288,6 +291,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $sorty->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhotoNom(): ?string
+    {
+        return $this->photoNom;
+    }
+
+    public function setPhotoNom(?string $photoNom): self
+    {
+        $this->photoNom = $photoNom;
 
         return $this;
     }

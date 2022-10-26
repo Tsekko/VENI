@@ -8,6 +8,7 @@ use App\Repository\SiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -15,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\BlankValidator;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -42,7 +44,9 @@ class ProfilType extends AbstractType
                 ],
             ])
             ->add('mail', EmailType::class, [
-                'label' => 'Email :'
+                'label' => 'Email :',
+                'required' => false,
+
             ])
             ->add('password', RepeatedType::class, [
                 // instead of being set onto the object directly,
@@ -62,6 +66,22 @@ class ProfilType extends AbstractType
                 'query_builder' => function(SiteRepository $siteRepository) {
                     return $siteRepository-> createQueryBuilder('s')->addOrderBy('s.nom', 'ASC');
                 }
+            ])
+            ->add('photoNom',FileType::class, [
+                'label' => 'Ma photo :',
+                'required' => false,
+                'mapped' => false,
+                'data_class' => null,
+                'constraints' => [
+                    new File([
+//                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'uploadFormSizeErrorMessage' => 'Le fichier doit etre une image de 1024k en png.',
+                    ])
+                ]
+
             ]);
     }
 
