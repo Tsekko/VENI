@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
+use App\Entity\Participant;
+use App\Entity\Rechercher;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\DateType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +43,81 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function rechercherFiltres(Rechercher $rechercher, Participant $participant) {
+
+        $q = $this
+            ->createQueryBuilder('s');
+
+
+        if (!empty($rechercher->getQuery()))
+        {
+            $q= $q
+                ->andWhere('s.nom LIKE :query')
+                ->setParameter('query', "%{$rechercher->getQuery()}%")
+                ->andWhere('s.archive = false');
+        }
+
+        if(empty($rechercher->getQuery())) {
+            $q= $q
+                ->andWhere('s.archive = false');
+        }
+        // A revoir
+        if($rechercher->getSite() != null) {
+            $q = $q
+                ->andWhere('s.site = :site')
+                ->setParameter('site', $rechercher->getSite());
+        }
+
+        if ($rechercher->getDebut() != null && $rechercher->getFin() != null)
+        {
+            $q= $q
+                ->andWhere('s.dateHeureDebut BETWEEN :debut AND :fin')
+                ->setParameter('debut', $rechercher->getDebut())
+                ->setParameter('fin', $rechercher->getFin())
+                ->orderBy('s.dateLimiteInscription', 'DESC');
+        }
+
+
+        if ($rechercher->isCheckboxOrganisateur() != null) {
+
+        $q= $q
+            ->andWhere('s.organisateur = :idOrganisateur')
+            ->setParameter('idOrganisateur', $participant->getId())
+            ->andWhere('s.archive = false');
+
+    }
+
+        if ($rechercher->isCheckboxInscrit() != null) {
+            $q= $q
+                ->join('s.participants', 'p')
+                ->andWhere('p.nom = :nom')
+                ->setParameter('nom', $participant->getNom())
+                ->andWhere('s.archive = false');
+        }
+
+        if ($rechercher->isCheckboxNonInscrit() != null) {
+            $q= $q
+                ->innerJoin('s.participants', 'p')
+                ->andHaving(':userId NOT IN (p.id)')
+                ->setParameter('userId', $participant->getId())
+                ->groupBy('p.id')
+                ->andWhere('s.archive = false');
+
+        }
+
+        if ($rechercher->isCheckboxPasses() != null) {
+            $q= $q
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', 4);
+    }
+        $q = $q
+        ->orderBy('s.dateHeureDebut', 'DESC')
+        ->getQuery()
+        ->getResult();
+    return $q;
+}
+
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
@@ -63,4 +142,5 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

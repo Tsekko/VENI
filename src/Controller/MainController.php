@@ -2,21 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Rechercher;
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\RechercherType;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use DateInterval;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(SortieRepository $sortieRepository,  SiteRepository $siteRepository, EntityManagerInterface $entityManager): Response
+    public function index(SortieRepository $sortieRepository, SiteRepository $siteRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         //liste déroulante des sites
         $sites = $siteRepository->findAll();
@@ -45,11 +48,21 @@ class MainController extends AbstractController
         // On lance la modification dans la base de données pour l'archivage des sorties
         $entityManager->flush();
 
+            // Filtres de recherche
+        $recherche = new Rechercher();
+        $form = $this->createForm(RechercherType::class, $recherche);
+        $form->handleRequest($request);
+
+            if($form->isSubmitted()) {
+                $sorties = $sortieRepository->rechercherFiltres($recherche, $this->getUser());
+            }
 
         return $this->render('main/home.html.twig', [
             'sorties' => $sorties,
             'sites' => $sites,
+            'rechercheForm' => $form->createView(),
             'controller_name' => 'MainController',
         ]);
     }
+
 }

@@ -13,80 +13,95 @@
             {% endif %}
         </div>
 
-        <h2 class="subtitle" style=" margin-left:117px; margin-right:117px;">Filtrer les sorties</h2>
+        <h2 class="subtitle">Filtrer les sorties</h2>
 
-
+{#        <div class="spinner-border js-loading" role="status" aria-hidden="true" style="display: none">#}
+{#            <span class="sr-only">Loading...</span>#}
+{#        </div>#}
         <div class="columns ">
+
             <div class="column">
                 <div class="columns is-mobile">
                     <div class="column">
-                        {# [TODO] FORMULAIRE DE RECHERCHE #}
+
+                        <div class="field is-flex">
+                            {{ form_start(rechercheForm) }}
+{#                            <div class="control">#}
+{#                                <label class="label" for="inputSite"> Site : </label>#}
+{#                                <select class="select is-multiple">#}
+{#                                    {% for site in sites %}#}
+                                {{ form_row(rechercheForm.site) }}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+                        </div>
                         <div class="field">
-                            <div class="control">
-                                <label class="label" for="inputSite"> Site : </label>
-                                <select class="select is-multiple">
-                                    {% for site in sites %}
-                                        <option>{{ site.nom }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+
+{#                                <label class="label" for="inputRequest"> Le nom de la sortie contient : </label>#}
+                                <div class="control">
+{#                                <input class="input is-info" type="text" placeholder="Le nom de la sortie contient">#}
+                                    {{ form_row(rechercheForm.query)  }}
+
+</div>
                         </div>
                         <div class="field">
                             <div class="control">
-                                <label class="label" for="inputRequest"> Le nom de la sortie contient : </label>
-                                <input class="input is-info" type="text" placeholder="Le nom de la sortie contient">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                            <label class="datetime">Entre : </label>
-                                <input type="date">
+{#                            <label class="datetime">Entre : </label>#}
+{#                                <input type="date"> #}
+                            {{ form_row(rechercheForm.debut)}}
 
-                            et
-                            <label class="datetime1"> </label>
-                                <input type="date">
 
+{#                            <label class="datetime1"> </label>#}
+{#                                <input type="date"> #}
+                                {{ form_row(rechercheForm.fin)}}
                             </div>
+
                         </div>
                     </div>
 
                     <div class="column">
                         <div class="field">
                             <div class="control">
-                            <label class="checkbox-organisateur"></label>
-                                <input type="checkbox">
-                                Sorties dont je suis l'organisateur/trice
+{#                            <label class="checkbox-organisateur"></label>#}
+{#                                <input type="checkbox">#}
+{#                                Sorties dont je suis l'organisateur/trice#}
+                                {{ form_row(rechercheForm.checkbox_organisateur)}}
 
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-                            <label class="checkbox-inscrit"></label>
-                                <input type="checkbox">
-                                Sorties auxquelles je suis inscrit/e
+{#                            <label class="checkbox-inscrit"></label>#}
+{#                                <input type="checkbox">#}
+{#                                Sorties auxquelles je suis inscrit/e#}
+                                {{ form_row(rechercheForm.checkbox_inscrit)}}
 
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-                            <label class="checkbox-non-inscrit"> </label>
-                                <input type="checkbox">
-                                Sorties auxquelles je ne suis pas incrit/e
+{#                            <label class="checkbox-non-inscrit"> </label>#}
+{#                                <input type="checkbox">#}
+{#                                Sorties auxquelles je ne suis pas incrit/e#}
+                               {{ form_row(rechercheForm.checkbox_non_inscrit)}}
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-                            <label class="checkbox-fin"></label>
-                                <input type="checkbox">
-                                Sorties passées
+{#                            <label class="checkbox-fin"></label>#}
+{#                                <input type="checkbox">#}
+{#                                Sorties passées#}
+                                {{ form_row(rechercheForm.checkbox_passes)}}
                             </div>
                         </div>
-
-                        <input class="button is-info mt-4" type="submit" value="Rechercher">
-
+{#                        <div class="button">#}
+{#                        <input class="button is-info mt-4" type="submit" value="Rechercher">#}
+{#                        </div>#}
                     </div>
+                    {{ form_end(rechercheForm) }}
                 </div>
             </div>
+
         </div>
 
         <table class="table is-striped has-text-centered">

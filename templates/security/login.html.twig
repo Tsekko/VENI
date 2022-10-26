@@ -18,20 +18,21 @@
 
     <h1 class="mb-3 font-weight-normal" style="font-size:25px">Please sign in</h1>
     <div class="field">
-        <div class="control">
+
             <label class="label" for="inputPseudo">Pseudo</label>
+        <div class="control">
             <input type="text" placeholder="Pseudo" value="{{ last_username }}" name="pseudo" id="inputPseudo"
                    class="form-control input" autocomplete="username" required autofocus>
         </div>
     </div>
     <div class="field">
-        <div class="control">
+
             <label class="label" for="inputPassword">Mot de passe</label>
+            <div class="control">
             <input type="password" placeholder="Mot de passe" name="password" id="inputPassword"
                    class="form-control input" autocomplete="current-password" required>
             <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+                   value="{{ csrf_token('authenticate') }}">
 
         </div>
     </div>
@@ -41,7 +42,8 @@
         #}
 
         <div class="checkbox mb-3">
-            <label>
+            <div class="control">
+            <label class="checkbox">
                 {# Solution de secours pour afficher une checkbox cochée si l'on a un cookie d'utilisateur #}
                 {% if remember_me  == true %}
                     <input type="checkbox" name="_remember_me" checked="{{ remember_me }}"> Se souvenir de moi
@@ -49,6 +51,7 @@
                     <input type="checkbox" name="_remember_me"> Se souvenir de moi
                 {% endif %}
             </label>
+            </div>
         </div>
 
         <button class=" button btn btn-lg btn-primary" type="submit">
