@@ -8,9 +8,16 @@
     <div class="container">
     {{ form_start(monProfilForm) }}
         <div class="columns">
+            <div class="column">
+                <div class="columns">
+                    <div class="column"></div>
+                    <div class="column">
+                            <img class="card-image" alt="Mon profil" src="{{ asset('images/avatar/test.jpg') }}" style="height:200px; width:auto">
+                    </div>
+                </div>
+            </div>
         <div class="column">
             <div class="columns">
-                <div class="column"></div>
                 <div class="column">
                     <div>Pseudo :</div>
                     <div class="pt-2">{{ form_label(monProfilForm.prenom) }}</div>
@@ -20,6 +27,7 @@
                     <div>{{ form_label(monProfilForm.site) }}</div>
                     <div class="py-4">{{ form_label(monProfilForm.password.first) }}</div>
                     <div>{{ form_label(monProfilForm.password.second) }}</div>
+                    <div class="py-4">{{ form_label(monProfilForm.photoNom) }}</div>
                 </div>
             </div>
         </div>
@@ -34,8 +42,11 @@
                     <div class="select">{{ form_widget(monProfilForm.site) }}</div>
                     <div>{{ form_widget(monProfilForm.password.first, {'attr': {'class': 'input'}}) }}</div>
                     <div>{{ form_widget(monProfilForm.password.second, {'attr': {'class': 'input'}}) }}</div>
+
+                        <div>{{ form_widget(monProfilForm.photoNom, {'attr': {'class': 'input'}}) }}</div>
+
+
                 </div>
-                <div class="column"></div>
             </div>
         </div>
     </div>

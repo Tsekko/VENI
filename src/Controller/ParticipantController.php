@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,12 +39,11 @@ class ParticipantController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function monProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = $this ->getUser();
-        $form = $this ->createForm(ProfilType::class, $user);
+        $user = $this->getUser();
+        $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
 
             if ($form->get('password')->getData()) {
                 // encode the plain password
@@ -56,6 +56,13 @@ class ParticipantController extends AbstractController
                 $this->addFlash('success', 'Le mot de passe a bien été changé');
 
             }
+//
+//            $file = $form->get('photoNom')->getData();
+//
+//                if($file){
+//
+//                }
+
 
             $entityManager->persist($user);
             $entityManager->flush();
