@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Entity\Site;
 use App\Form\ParticipantType;
+use App\Form\SupprimerParticipantType;
 use App\Form\UploadCSVType;
 use App\Service\UploadFile;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,11 +28,31 @@ class AdministrationController extends AbstractController
     }
 
     #[Route('/utilisateurs', name: 'utilisateurs')]
-    public function utilisateurs(EntityManagerInterface $em): Response {
-        $utilisateurs = $em->getRepository(Participant::class)->findAll();
+    public function utilisateurs(EntityManagerInterface $em, Request $request): Response {
+        //$utilisateurs = $em->getRepository(Participant::class)->findAll();
+        $form = $this->createForm(SupprimerParticipantType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $users = $form['utilisateurs']->getData();
+            foreach ($users as $user) {
+                $participant = $em->getRepository(Participant::class)->findOneBy(['id' => $user]);
+                if ($form->get('desactiver')->isClicked()) {
+                    $participant->setActif(0);
+                    $em->persist($participant);
+                } elseif ($form->get('activer')->isClicked()) {
+                    $participant->setActif(1);
+                    $em->persist($participant);
+                } elseif ($form->get('supprimer')->isClicked()) {
+                    $em->remove($participant);
+                }
+            }
+            $em->flush();
+            return $this->redirectToRoute('app_administration_utilisateurs');
+        }
 
         return $this->render('administration/utilisateurs.html.twig', [
-            'utilisateurs' => $utilisateurs,
+            'utilisateurs' => $form->createView(),
         ]);
     }
 
