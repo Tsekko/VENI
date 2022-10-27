@@ -143,12 +143,17 @@ class SortieController extends AbstractController
             if ($sortie->getEtat()->getNom() !== "Ouvert") {
                 throw new \Exception('Vous ne pouvez pas vous inscrire à cette sortie');
             }
+            if ($sortie->getParticipants()->count() == $sortie->getNbInscriptionsMax()) {
+                throw new \Exception('La sortie ne comporte plus de places disponibles');
+            }
             if ($sortie->getParticipants()->contains($this->getUser())) {
                 throw new \Exception('Vous êtes déjà inscrit à cette sortie');
             }
             // L'utilisateur connecté est set en tant que participant
             $sortie->addParticipant($this->getUser());
-
+            if ($sortie->getParticipants()->count() == $sortie->getNbInscriptionsMax()) {
+                $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Fermé']));
+            }
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success', 'Votre inscription a bien été prise en compte');
@@ -182,7 +187,9 @@ class SortieController extends AbstractController
             }
             // L'utilisateur connecté est désister en tant que participant
             $sortie->removeParticipant($this->getUser());
-
+            if ($sortie->getEtat()->getNom() == "Fermé" && $sortie->getParticipants()->count() < $sortie->getNbInscriptionsMax() && $sortie->getDateLimiteInscription() > new \DateTime()) {
+                $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Ouvert']));
+            }
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('success', 'Vous avez bien été désinscrit');
@@ -277,7 +284,7 @@ class SortieController extends AbstractController
                 if ($this->getUser() !== $sortie->getOrganisateur()) {
                     throw new \Exception('Vous ne pouvez pas annuler une sortie que vous n\'organisez pas');
                 }
-                if ($sortie->getEtat()->getNom() != "Ouvert" && $sortie->getEtat()->getNom() != "Fermé") {
+                if ($sortie->getEtat()->getNom() != "Ouvert" && $sortie->getEtat()->getNom() != "Fermé" && $sortie->getDateHeureDebut() <= new \DateTime()) {
                     throw new \Exception('Vous ne pouvez pas annuler cette sortie');
                 }
                 $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Annulée']));
