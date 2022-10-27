@@ -36,8 +36,10 @@ class Rechercher
     #[ORM\Column(nullable: true)]
     private ?bool $checkbox_passes = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $site = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Site $site = null;
+
 
     public function getId(): ?int
     {
@@ -127,16 +129,20 @@ class Rechercher
 
         return $this;
     }
-
-    public function getSite(): ?int
+    /**
+     * @return Site|null
+     */
+    public function getSite(): ?Site
     {
         return $this->site;
     }
 
-    public function setSite(?int $site): self
+    /**
+     * @param Site|null $site
+     */
+    public function setSite(?Site $site): void
     {
         $this->site = $site;
-
-        return $this;
     }
+
 }
