@@ -50,14 +50,13 @@ class AppFixtures extends Fixture
         $user->setActif(1);
         $manager->persist($user);
 
-
         $user1 = new Participant();
         $user1->setMail("fabrice.hure.35@gmail.com");
         $user1->setPseudo("Bibiss");
         $user1->setNom("Huré");
         $user1->setPrenom("Fabrice");
         $user1->setRoles(["ROLE_USER"]);
-        $user1->setSite($site);
+        $user1->setSite($site2);
         $password = "bonjour";
         $user1->setPassword($this->encoder->encodePassword($user, $password));
         $user1->setAdministrateur(0);
@@ -154,22 +153,6 @@ class AppFixtures extends Fixture
         $lieu3->setLongitude(-361.595531);
         $lieu3->setVille($ville);
         $manager->persist($lieu3);
-
-        $sortie = new Sortie();
-        $sortie->setNom("Sortie au bar");
-        $sortie->setDateHeureDebut(new \DateTime('11/11/2022'));
-        $sortie->setDuree(120);
-        $sortie->setDateLimiteInscription(new \DateTime('09/11/2022'));
-        $sortie->setNbInscriptionsMax(25);
-        $sortie->setInfosSortie("Une nouvelle sortie s'annonce");
-        $sortie->setEtat($etat);
-        $sortie->setOrganisateur($user);
-        $sortie->addParticipant($user);
-        $sortie->addParticipant($user1);
-        $sortie->addParticipant($user3);
-        $sortie->setLieu($lieu);
-        $sortie->setArchive(false);
-        $manager->persist($sortie);
 
         $sortie2 = new Sortie();
         $sortie2->setNom("Sortie au bowling");

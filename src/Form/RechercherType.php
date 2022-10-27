@@ -4,10 +4,9 @@ namespace App\Form;
 
 use App\Entity\Rechercher;
 use App\Entity\Site;
-use Doctrine\DBAL\Types\BooleanType;
-use PHPUnit\Framework\Constraint\GreaterThan;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -51,11 +50,10 @@ class RechercherType extends AbstractType
                 'required' =>false,
             ])
             ->add('site', EntityType::class, [
+                'choice_label' => "nom",
                 'label' => 'Site : ',
                 'class' => Site::class,
-                'choice_label' => 'nom',
-                'mapped' => false,
-                'required' =>false,
+                'required' => false,
             ])
             ->add('rechercher', SubmitType::class, ['label' => 'Rechercher']);
 
