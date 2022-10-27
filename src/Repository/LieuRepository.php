@@ -39,6 +39,15 @@ class LieuRepository extends ServiceEntityRepository
         }
     }
 
+    public function rechercheNom(string $nom) {
+        $q = $this->createQueryBuilder('l')
+            ->andWhere('l.nom LIKE :query')
+            ->setParameter('query', "%{$nom}%")
+            ->getQuery()
+            ->getResult();
+        return $q;
+    }
+
 //    /**
 //     * @return Lieu[] Returns an array of Lieu objects
 //     */
