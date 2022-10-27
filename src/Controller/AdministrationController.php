@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
+use App\Form\LieuType;
 use App\Form\ParticipantType;
 use App\Form\SupprimerParticipantType;
 use App\Form\UploadCSVType;
 use App\Service\UploadFile;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -155,5 +158,56 @@ class AdministrationController extends AbstractController
         return $this->render('administration/csv.html.twig', [
             'csvForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/lieux', name: 'lieux')]
+    public function afficherLieux(EntityManagerInterface $em): Response {
+        $lieux = $em->getRepository(Lieu::class)->findAll();
+        return $this->render('administration/lieux.html.twig', [
+            'lieux' => $lieux
+        ]);
+    }
+
+    #[Route('/lieux/add', name: 'ajout_lieu')]
+    public function ajouterLieu(Request $request, EntityManagerInterface $em): Response {
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($lieu);
+            $em->flush();
+            return $this->redirectToRoute('app_administration_lieux');
+        }
+
+        return $this->render('administration/ajoutLieu.html.twig', [
+            'lieuForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('/lieux/edit/{id}', name: 'edit_lieu', requirements: ['id' => '\d+'])]
+    #[ParamConverter('lieu', class: 'App\Entity\Lieu')]
+    public function editerLieu(Lieu $lieu, Request $request, EntityManagerInterface $em): Response {
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($lieu);
+            $em->flush();
+            return $this->redirectToRoute('app_administration_lieux');
+        }
+
+        return $this->render('administration/ajoutLieu.html.twig', [
+            'lieuForm' => $form->createView()
+        ]);
+    }
+
+    #[Route('lieux/delete/{id}', name: 'delete_lieu', requirements: ['id' => '\d+'])]
+    #[ParamConverter('lieu', class: 'App\Entity\Lieu')]
+    public function supprimerLieu(Lieu $lieu, EntityManagerInterface $em) {
+        $em->getRepository(Lieu::class)->remove($lieu);
+        $em->flush();
+
+        return $this->redirectToRoute('app_administration_lieux');
     }
 }
