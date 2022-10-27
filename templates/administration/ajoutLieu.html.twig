@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de lieu{% endblock %}
+
+{% block body %}
+    <h1 class="title is-flex is-justify-content-center">Ajouter un lieu</h1>
+    {{ form_start(lieuForm) }}
+    <div class="columns">
+        <div class="column">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column">
+                    <div class="pt-2">{{ form_label(lieuForm.nom) }}</div>
+                    <div class="py-4">{{ form_label(lieuForm.rue) }}</div>
+                    <div>{{ form_label(lieuForm.latitude) }}</div>
+                    <div class="py-4">{{ form_label(lieuForm.longitude) }}</div>
+                    <div>{{ form_label(lieuForm.ville) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="columns">
+                <div class="column">
+                    {{ form_widget(lieuForm.nom, {'attr': {'class': 'input'}}) }}
+                    {{ form_widget(lieuForm.rue, {'attr': {'class': 'input'}}) }}
+                    {{ form_widget(lieuForm.latitude, {'attr': {'class': 'input'}}) }}
+                    {{ form_widget(lieuForm.longitude, {'attr': {'class': 'input'}}) }}
+                    <div class="select">{{ form_widget(lieuForm.ville) }}</div>
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-buttons">
+        <button class="button" type="submit">Ajouter</button>
+    </div>
+    {{ form_end(lieuForm) }}
+{% endblock %}
