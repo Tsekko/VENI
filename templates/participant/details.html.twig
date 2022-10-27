@@ -5,17 +5,18 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="title is-flex is-justify-content-center">{{ participant.pseudo }}</h1>
+
+    <h1 class="title is-flex is-justify-content-center title-details">{{ participant.pseudo }}</h1>
     <div class="columns">
         <div class="column">
             <div class="columns">
                 <div class="column"></div>
                 <div class="column">
-                    <div>Prénom :</div>
-                    <div>Nom :</div>
-                    <div>Téléphone :</div>
-                    <div>Email :</div>
-                    <div>Site de rattachement :</div>
+                    <div class="titre-user-details">Prénom :</div>
+                    <div class="titre-user-details">Nom :</div>
+                    <div class="titre-user-details">Téléphone :</div>
+                    <div class="titre-user-details">Email :</div>
+                    <div class="titre-user-details">Site de rattachement :</div>
                 </div>
             </div>
         </div>
@@ -32,5 +33,6 @@
             </div>
         </div>
     </div>
-    <a class="button is-flex is-justify-content-center" href="{{ path('app_home') }}">Retour</a>
-{% endblock %}
+    <a class="button is is-flex is-justify-content-center user-details is-warning" href="{{ path('app_home') }}">Retour</a>
+
+   {% endblock %}

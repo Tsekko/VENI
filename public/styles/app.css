@@ -1,9 +1,8 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
+
 .navbar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
+
     width: 100%;
     padding-left: 8px;
 }
@@ -63,5 +62,65 @@
 
 .container {
     display: block;
+    max-width:1100px;
 }
 
+.columns-filtres{
+    width: 900px;
+
+}
+
+.column{
+display:inline-flex;
+}
+
+.table thead {
+    text-align-last: center;
+}
+
+.user-details {
+    width: 153px;
+    margin-left:600px;
+}
+
+
+.data-user{
+    float: right;
+}
+
+.details-sortie {
+    padding-left: 3px;
+}
+
+.titre-user-details {
+    font-weight: bold ;
+}
+
+
+
+
+@media screen and (max-width: 1200px){
+
+    /*!*menu*!*/
+    .navbar{
+
+    }
+
+    .navbar-brand{
+        margin-top:30px;
+    }
+
+
+    .container{
+        max-width: 850px;
+    }
+
+    .columns-filtres{
+        width: 868px;
+    }
+
+    .user-details {
+        margin-left:355px;
+    }
+
+}
