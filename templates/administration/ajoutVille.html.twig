@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une ville{% endblock %}
+
+{% block body %}
+    <h1 class="title is-flex is-justify-content-center">Ajouter une ville</h1>
+    {{ form_start(villeForm) }}
+    <div class="columns">
+        <div class="column">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column">
+                    <div class="pt-2">{{ form_label(villeForm.nom) }}</div>
+                    <div class="py-4">{{ form_label(villeForm.codePostal) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="columns">
+                <div class="column">
+                    {{ form_widget(villeForm.nom, {'attr': {'class': 'input'}}) }}
+                    {{ form_widget(villeForm.codePostal, {'attr': {'class': 'input'}}) }}
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-buttons">
+        <button class="button" type="submit">Ajouter</button>
+    </div>
+    {{ form_end(villeForm) }}
+{% endblock %}

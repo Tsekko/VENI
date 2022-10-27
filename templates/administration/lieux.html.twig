@@ -4,6 +4,14 @@
 
 {% block body %}
     <h1 class="title">Gérer les lieux</h1>
+    {{ form_start(rechercheLieuForm) }}
+    <div class="columns">
+        <div class="column"><div class="is-flex">{{ form_label(rechercheLieuForm.nom) }} {{ form_widget(rechercheLieuForm.nom, {'attr': {'class': 'input'}}) }} <button type="submit" class="button">Rechercher</button></div></div>
+        <div class="column"></div>
+    </div>
+
+
+    {{ form_end(rechercheLieuForm) }}
     <table class="table is-striped has-text-centered">
         <thead class="has-text-centered">
         <tr>
