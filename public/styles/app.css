@@ -10,6 +10,7 @@
 .navbar-items {
     padding-right: 8px;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .navbar-items>a {
@@ -96,6 +97,19 @@ display:inline-flex;
     font-weight: bold ;
 }
 
+.champ-mdp {
+    height: 400px;
+    width: 400px;
+    margin-left:245px;
+}
+.btn-connexion {
+    float: right;
+}
+
+.tableau-mobile-visible {
+    visibility: hidden;
+}
+
 
 
 
@@ -110,7 +124,24 @@ display:inline-flex;
         margin-top:30px;
     }
 
+    .data-user{
+        visibility: visible;
 
+    }
+
+    .h2-subtitle{
+        visibility: visible;
+    }
+
+    .title-bienvenue{
+        margin-top: 45px;
+        margin-left: 20px;
+    }
+
+    .columns-filtres {
+        visibility: visible;
+        height:auto;
+    }
 
     .container{
         max-width: 850px;
@@ -122,6 +153,106 @@ display:inline-flex;
 
     .user-details {
         margin-left:355px;
+    }
+    .tableau-mobile-visible {
+        visibility: hidden;
+    }
+    .button-sortie {
+        visibility: visible;
+
+    }
+    .tableau-mobile-hidden {
+        visibility: visible;
+        display: flex;
+    }
+
+    .titre-user-details {
+        font-weight: bold;
+    }
+
+    .h3-liste-participants{
+        text-align: left;
+    }
+
+    .table-participants {
+        margin-left: 0;
+    }
+
+    .button-retour-participants {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+}
+
+@media screen and (max-width: 800px){
+
+    .container {
+        max-width: 720px;
+    }
+
+    .champ-mdp {
+        margin-left: 35px;
+        margin-top: 100px;
+    }
+
+
+    .data-user{
+        visibility: hidden;
+        display: none;
+    }
+
+    .h2-subtitle{
+        visibility: hidden;
+        display: none;
+    }
+
+    .title-bienvenue{
+        margin-top: 45px;
+        margin-left: 20px;
+    }
+
+    .columns-filtres {
+        visibility: hidden;
+        display: table-column;
+        height:0;
+    }
+
+    .tableau-sorties {
+        margin-left: 68px;
+    }
+
+.button-sortie {
+    visibility: hidden;
+    display: none;
+}
+    .tableau-mobile-hidden {
+        visibility: hidden;
+        display: none;
+    }
+
+    .tableau-mobile-visible {
+        visibility: visible;
+    }
+    .user-details {
+        margin-left:287px;
+    }
+
+.titre-user-details {
+ font-weight: normal;
+}
+
+    .h3-liste-participants{
+        text-align: center;
+    }
+
+    .table-participants {
+        margin-left: 231px;
+    }
+
+    .button-retour-participants {
+        margin-left: 309px;
+        margin-top: 20px;
     }
 
 }

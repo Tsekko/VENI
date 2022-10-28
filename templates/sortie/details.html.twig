@@ -92,9 +92,9 @@
     </div>
        <hr>
 
-    <h3 class="subtitle">Liste des participants inscrits</h3>
+    <h3 class="subtitle h3-liste-participants">Liste des participants inscrits</h3>
 
-    <table class="table has-text-centered is-striped is-bordered">
+    <table class="table has-text-centered is-striped is-bordered table-participants">
         <thead>
         <tr>
             <th>Pseudo</th>
@@ -119,7 +119,7 @@
 
     {% if sortie.etat.id != "5" and sortie.etat.id != "1" %}
         {% if sortie.participants | length != sortie.nbInscriptionsMax  %}
-            <h3>Souhaitez vous vous inscrire à cette sortie ?</h3>
+            <h3 class="h3-liste-participants">Souhaitez vous vous inscrire à cette sortie ?</h3>
             {% set continue = false %}
             {% for participant in sortie.participants %}
                 {% if user == participant %}
@@ -145,7 +145,7 @@
         La sortie n'est pas encore publiée<br>
     {% endif %}
 
-    <a href="{{ path('app_home') }}" class="button is-warning btn">Retour</a><br>
+    <a href="{{ path('app_home') }}" class="button is-warning btn button-retour-participants">Retour</a><br>
 
 {% endblock %}
 

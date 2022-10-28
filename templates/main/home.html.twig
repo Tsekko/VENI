@@ -4,14 +4,14 @@
 
 {% block body %}
     <div class="page">
-        <h1 class="title">Bienvenue sur VENI !</h1>
+        <h1 class="title title-bienvenue">Bienvenue sur VENI !</h1>
         <div class="data-user mb-2">
             {% if app.user != null %}
                 <div><b>Date du jour:</b> {{ "now" | date('d/m/Y') }}</div>
                 <div><b>Participant:</b> {{ app.user.prenom }} {{ app.user.nom }}  </div>
             {% endif %}
         </div>
-        <h2 class="subtitle">Filtrer les sorties</h2>
+        <h2 class="subtitle h2-subtitle">Filtrer les sorties</h2>
 
         <div class="columns columns-filtres my-2 mb-2">
 
@@ -76,16 +76,18 @@
 
         </div>
 
-        <table class="table is-striped has-text-centered mt-4">
+        <table class="table is-striped has-text-centered mt-4 tableau-sorties">
             <thead class="has-text-centered">
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
+                <th class="tableau-mobile-visible">Lieu</th>
+                <th class="tableau-mobile-hidden">Clôture</th>
+                <th class="tableau-mobile-hidden">Inscrits/places</th>
+                <th class="tableau-mobile-hidden">Etat</th>
+                <th class="tableau-mobile-hidden">Inscrit</th>
+                <th class="tableau-mobile-hidden">Organisateur</th>
+
                 <th>Actions</th>
             </tr>
             </thead>
@@ -94,9 +96,10 @@
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.dateHeureDebut | date('d-m-Y') }}</td>
-                    <td>{{ sortie.dateLimiteInscription | date('d-m-Y') }}</td>
-                    <td> {{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
-                    <td>{{ sortie.etat.nom }}</td>
+                    <td class="tableau-mobile-visible">{{ sortie.lieu.nom }}</td>
+                    <td class="tableau-mobile-hidden">{{ sortie.dateLimiteInscription | date('d-m-Y') }}</td>
+                    <td class="tableau-mobile-hidden"> {{ sortie.participants | length }} / {{ sortie.nbInscriptionsMax }}</td>
+                    <td class="tableau-mobile-hidden">{{ sortie.etat.nom }}</td>
                     {% if app.user != null %}
                         {% set continu = false %}
                         {% for participant in sortie.participants %}
@@ -105,14 +108,14 @@
                             {% endif %}
                         {% endfor %}
                         {% if continu %}
-                            <td> X</td>
+                            <td class="tableau-mobile-hidden"> X</td>
                         {% else %}
-                            <td> Non inscrit</td>
+                            <td class="tableau-mobile-hidden"> Non inscrit</td>
                         {% endif %}
                     {% else %}
                         <td></td>
                     {% endif %}
-                    <td><a href="{{ path('app_details_participant', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
+                    <td class="tableau-mobile-hidden"><a href="{{ path('app_details_participant', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
                     {% if app.user %}
                         {% if sortie.etat.nom == "En création" and sortie.organisateur.pseudo == app.user.pseudo %}
                             <td> <a href="{{ path('app_editer', {'id': sortie.id}) }}">Modifier</a> / <a href="{{ path('app_publier', {'id': sortie.id}) }}">Publier</a> </td>
@@ -129,6 +132,6 @@
             {% endfor %}
             </tbody>
         </table>
-        <a class="button is-link" href="{{ path('app_ajout_sortie') }}">Créer une sortie</a>
+        <a class="button is-link button-sortie" href="{{ path('app_ajout_sortie') }}">Créer une sortie</a>
     </div>
 {% endblock %}
