@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des villes{% endblock %}
+
+{% block body %}
+    <h1 class="title is-flex is-justify-content-center">Gérer les villes</h1>
+    {{ form_start(rechercheLieuForm) }}
+    <div class="columns">
+        <div class="column"><div class="is-flex">{{ form_label(rechercheLieuForm.nom) }} {{ form_widget(rechercheLieuForm.nom, {'attr': {'class': 'input'}}) }} <button type="submit" class="button">Rechercher</button></div></div>
+        <div class="column"></div>
+    </div>
+    {{ form_end(rechercheLieuForm) }}
+    <table class="table is-striped has-text-centered">
+        <thead>
+        <tr>
+            <th class="has-text-centered">Ville</th>
+            <th class="has-text-centered">Code postal</th>
+            <th class="has-text-centered">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for ville in villes %}
+                <tr>
+                    <td>{{ ville.nom }}</td>
+                    <td>{{ ville.codePostal }}</td>
+                    <td><a href="{{ path('app_administration_editer_ville', {'id': ville.id}) }}" class="button">Modifier</a><a href="{{ path('app_administration_supprimer_ville', {'id': ville.id}) }}" class="button">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_administration_ajout_ville') }}" class="button">Ajouter</a>
+{% endblock %}

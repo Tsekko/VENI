@@ -61,10 +61,12 @@ class SortieRepository extends ServiceEntityRepository
             $q= $q
                 ->andWhere('s.archive = false');
         }
-        // A revoir
+
+        // Ne fonctionne pas - à revoir
         if($rechercher->getSite() != null) {
             $q = $q
-                ->andWhere('s.site = :site')
+                ->leftjoin('s.organisateur', 'p')
+                ->andWhere('p.site = :site')
                 ->setParameter('site', $rechercher->getSite());
         }
 
@@ -79,42 +81,40 @@ class SortieRepository extends ServiceEntityRepository
 
 
         if ($rechercher->isCheckboxOrganisateur() != null) {
-
-        $q= $q
-            ->andWhere('s.organisateur = :idOrganisateur')
-            ->setParameter('idOrganisateur', $participant->getId())
-            ->andWhere('s.archive = false');
-
-    }
+            $q= $q
+                ->andWhere('s.organisateur = :idOrganisateur')
+                ->setParameter('idOrganisateur', $participant->getId())
+                ->andWhere('s.archive = false');
+        }
 
         if ($rechercher->isCheckboxInscrit() != null) {
             $q= $q
-                ->join('s.participants', 'p')
+                ->leftjoin('s.participants', 'p')
                 ->andWhere('p.nom = :nom')
                 ->setParameter('nom', $participant->getNom())
                 ->andWhere('s.archive = false');
         }
 
+        // Ne fonctionne pas - à revoir
         if ($rechercher->isCheckboxNonInscrit() != null) {
             $q= $q
-                ->innerJoin('s.participants', 'p')
+                ->join('s.participants', 'p')
                 ->andHaving(':userId NOT IN (p.id)')
                 ->setParameter('userId', $participant->getId())
-                ->groupBy('p.id')
-                ->andWhere('s.archive = false');
-
+                ->groupBy('p.id');
         }
 
         if ($rechercher->isCheckboxPasses() != null) {
-            $q= $q
-                ->andWhere('s.etat = :etat')
-                ->setParameter('etat', 4);
-    }
+            $q = $q
+                ->andWhere('s.dateHeureDebut < :now')
+                ->setParameter('now', new \DateTime('now'));
+        }
+
         $q = $q
         ->orderBy('s.dateHeureDebut', 'ASC')
         ->getQuery()
         ->getResult();
-    return $q;
+        return $q;
 }
 
 

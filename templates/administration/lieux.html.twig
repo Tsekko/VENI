@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des lieux{% endblock %}
+
+{% block body %}
+    <h1 class="title">Gérer les lieux</h1>
+    {{ form_start(rechercheLieuForm) }}
+    <div class="columns">
+        <div class="column"><div class="is-flex">{{ form_label(rechercheLieuForm.nom) }} {{ form_widget(rechercheLieuForm.nom, {'attr': {'class': 'input'}}) }} <button type="submit" class="button">Rechercher</button></div></div>
+        <div class="column"></div>
+    </div>
+
+
+    {{ form_end(rechercheLieuForm) }}
+    <table class="table is-striped has-text-centered">
+        <thead class="has-text-centered">
+        <tr>
+            <th class="has-text-centered">Nom</th>
+            <th class="has-text-centered">Rue</th>
+            <th class="has-text-centered">Code postal</th>
+            <th class="has-text-centered">Ville</th>
+            <th class="has-text-centered">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for lieu in lieux %}
+                <tr>
+                    <td>{{ lieu.nom }}</td>
+                    <td>{{ lieu.rue }}</td>
+                    <td>{{ lieu.ville.codePostal }}</td>
+                    <td>{{ lieu.ville.nom }}</td>
+                    <td><a href="{{ path('app_administration_edit_lieu', {'id': lieu.id}) }}" class="button">Modifier</a><a href="{{ path('app_administration_delete_lieu', {'id': lieu.id}) }}" class="button">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_administration_ajout_lieu') }}" class="button">Ajouter un lieu</a>
+{% endblock %}

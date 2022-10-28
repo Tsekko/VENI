@@ -17,13 +17,16 @@
             <a class="navbar-item" href={{ path('app_home') }}>
                 Accueil
             </a>
-            <a href="" class="navbar-item">
-               Villes
-            </a>
-            <a href="" class="navbar-item">
-                Sites
-            </a>
-                {% if app.user != null %}
+            {% if app.user != null %}
+            {% if app.user.administrateur %}
+                <a href="{{ path('app_administration_lieux') }}" class="navbar-item">
+                    Lieux
+                </a>
+                <a href="{{ path('app_administration_villes') }}" class="navbar-item">
+                    Villes
+                </a>
+                <a href="{{ path('app_administration_utilisateurs') }}" class="navbar-item">Utilisateurs</a>
+            {% endif %}
                     <a class="navbar-item" href={{ path('app_monprofil') }}>Mon profil</a>
                     <div class="buttons">
                         <a class="navbar-item button is-primary" href={{ path('app_logout') }}>Se déconnecter</a>

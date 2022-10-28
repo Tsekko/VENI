@@ -6,24 +6,38 @@
 
 {% block body %}
     <h1 class="title">Gestion des utilisateurs</h1>
+    {{ form_start(utilisateurs) }}
     <table class="table is-striped has-text-centered">
         <thead class="has-text-centered">
         <tr>
+            <th></th>
             <th>Pseudo</th>
-            <th>Nom</th>
-            <th>Email</th>
+            <th class="has-text-centered">Nom</th>
+            <th class="has-text-centered">Email</th>
+            <th>Téléphone</th>
+            <th>Actif</th>
         </tr>
         </thead>
         <tbody>
-        {% for utilisateur in utilisateurs %}
-            <tr>
-                <td>{{ utilisateur.pseudo }}</td>
-                <td>{{ utilisateur.prenom }} {{ utilisateur.nom }}</td>
-                <td>{{ utilisateur.mail }}</td>
-            </tr>
-        {% endfor %}
+    {% for user in utilisateurs.vars.form.children.utilisateurs.children %}
+        <tr>
+            <td>{{ form_widget(utilisateurs.utilisateurs[user.vars.value]) }}</td>
+            {# dump(utilisateurs.utilisateurs.vars.choices) #}
+            <td>{{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.pseudo }}</td>
+            <td>{{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.nom }} {{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.prenom }}</td>
+            <td>{{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.mail }}</td>
+            <td>{{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.telephone ? utilisateurs.utilisateurs.vars.choices[user.vars.value].data.telephone : "Non renseigné" }}</td>
+            <td>{{ utilisateurs.utilisateurs.vars.choices[user.vars.value].data.actif ? "Actif" : "Inactif" }}</td>
+        </tr>
+    {% endfor %}
         </tbody>
     </table>
-    <a class="button" href="{{ path('app_administration_utilisateurs_ajout') }}">Ajouter un utilisateur</a>
-    <a href="{{ path('app_administration_csv') }}">Ajouter des utilisateurs depuis un fichier CSV</a>
+    <div>
+        {{ form_widget(utilisateurs.activer, {'attr': {'class': 'button'}}) }}
+        {{ form_widget(utilisateurs.desactiver, {'attr': {'class': 'button'}}) }}
+        {{ form_widget(utilisateurs.supprimer, {'attr': {'class': 'button'}}) }}
+        <a class="button" href="{{ path('app_administration_utilisateurs_ajout') }}">Ajouter un utilisateur</a>
+        <a class="button" href="{{ path('app_administration_csv') }}">Ajouter des utilisateurs depuis un fichier CSV</a>
+    </div>
+    {{ form_end(utilisateurs) }}
 {% endblock %}
