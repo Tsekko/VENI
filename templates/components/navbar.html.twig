@@ -1,18 +1,18 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand ">
-        <a class="navbar-item " href="{{ path('app_home') }}" style="font-size: 25px">
-            <img src="{{ asset('images/Logo VENI.png') }}" width="40" height="40" alt="VENI">
-{#            <img src="" width="112" height="28">#}
+        <a class="navbar-item" href="{{ path('app_home') }}" style="font-size: 25px">
+            <img src="{{ asset('images/Logo VENI.png') }}" style="width:auto; max-height:100px;" alt="VENI">
+        </a>
+{#bouton burger à revoir#}
+        <a class="navbar-burger" role="button"  data-target="navbarMenu" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-menu" id="navbarMenu" >
         <div class="navbar-end mr-4">
             <a class="navbar-item" href={{ path('app_home') }}>
                 Accueil
@@ -23,15 +23,18 @@
             <a href="" class="navbar-item">
                 Sites
             </a>
-
-                    {% if app.user != null %}
+                {% if app.user != null %}
                     <a class="navbar-item" href={{ path('app_monprofil') }}>Mon profil</a>
                     <div class="buttons">
                         <a class="navbar-item button is-primary" href={{ path('app_logout') }}>Se déconnecter</a>
-                    {% else %}
+                {% else %}
                     <a class="navbar-item button is-primary" href={{ path('app_login') }}>Se connecter</a>
-                    {% endif %}
+                {% endif %}
                 </div>
         </div>
     </div>
 </nav>
+
+{% block javascripts %}
+<script src="{{ asset('/navbar.js') }}"></script>
+{% endblock %}
