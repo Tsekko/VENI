@@ -3,57 +3,39 @@
 {% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
-    <div>
-
+    <div class="page">
         <h1 class="title">Bienvenue sur VENI !</h1>
-        <div>
+        <div class="data-user mb-2">
             {% if app.user != null %}
-                <div>Date du jour: {{ "now" | date('d/m/Y') }}</div>
-                <div>Participant: {{ app.user.prenom }} {{ app.user.nom }}  </div>
+                <div><b>Date du jour:</b> {{ "now" | date('d/m/Y') }}</div>
+                <div><b>Participant:</b> {{ app.user.prenom }} {{ app.user.nom }}  </div>
             {% endif %}
         </div>
-
         <h2 class="subtitle">Filtrer les sorties</h2>
 
-{#        <div class="spinner-border js-loading" role="status" aria-hidden="true" style="display: none">#}
-{#            <span class="sr-only">Loading...</span>#}
-{#        </div>#}
-        <div class="columns ">
+        <div class="columns columns-filtres my-2 mb-2">
 
             <div class="column">
-                <div class="columns is-mobile">
+                <div class="columns is-mobile column-is-mobile-filtres">
                     <div class="column">
-
                         <div class="field is-flex">
                             {{ form_start(rechercheForm) }}
-{#                            <div class="control">#}
-{#                                <label class="label" for="inputSite"> Site : </label>#}
-{#                                <select class="select is-multiple">#}
-{#                                    {% for site in sites %}#}
                                 {{ form_row(rechercheForm.site) }}
-{#                                    {% endfor %}#}
-{#                                </select>#}
-{#                            </div>#}
                         </div>
                         <div class="field">
-
-{#                                <label class="label" for="inputRequest"> Le nom de la sortie contient : </label>#}
                                 <div class="control">
-{#                                <input class="input is-info" type="text" placeholder="Le nom de la sortie contient">#}
-                                    {{ form_row(rechercheForm.query)  }}
-
-</div>
+                                    {{ form_row(rechercheForm.query) }}
+                                </div>
                         </div>
                         <div class="field">
                             <div class="control">
-{#                            <label class="datetime">Entre : </label>#}
-{#                                <input type="date"> #}
-                            {{ form_row(rechercheForm.debut)}}
-
-
-{#                            <label class="datetime1"> </label>#}
-{#                                <input type="date"> #}
+                                <div class="filtre-debut">
+                                    {{ form_row(rechercheForm.debut)}}
+                                </div>
+                            <div>
                                 {{ form_row(rechercheForm.fin)}}
+                            </div>
+
                             </div>
 
                         </div>
@@ -62,58 +44,39 @@
                     <div class="column">
                         <div class="field">
                             <div class="control">
-{#                            <label class="checkbox-organisateur"></label>#}
-{#                                <input type="checkbox">#}
-{#                                Sorties dont je suis l'organisateur/trice#}
-                                {{ form_widget(rechercheForm.checkbox_organisateur)}}
+                               {{ form_widget(rechercheForm.checkbox_organisateur)}}
                                 {{ form_label(rechercheForm.checkbox_organisateur)}}
 
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-{#                            <label class="checkbox-inscrit"></label>#}
-{#                                <input type="checkbox">#}
-{#                                Sorties auxquelles je suis inscrit/e#}
-                                {{ form_widget(rechercheForm.checkbox_inscrit)}}
+                               {{ form_widget(rechercheForm.checkbox_inscrit)}}
                                 {{ form_label(rechercheForm.checkbox_inscrit)}}
-
-
-
-
-                            </div>
+                         </div>
                         </div>
                         <div class="field">
                             <div class="control">
-{#                            <label class="checkbox-non-inscrit"> </label>#}
-{#                                <input type="checkbox">#}
-{#                                Sorties auxquelles je ne suis pas incrit/e#}
-                               {{ form_widget(rechercheForm.checkbox_non_inscrit)}}
+                              {{ form_widget(rechercheForm.checkbox_non_inscrit)}}
                                 {{ form_label(rechercheForm.checkbox_non_inscrit)}}
 
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-{#                            <label class="checkbox-fin"></label>#}
-{#                                <input type="checkbox">#}
-{#                                Sorties passées#}
                                 {{ form_widget(rechercheForm.checkbox_passes)}}
                                 {{ form_label(rechercheForm.checkbox_passes)}}
 
                             </div>
                         </div>
-{#                        <div class="button">#}
-{#                        <input class="button is-info mt-4" type="submit" value="Rechercher">#}
-{#                        </div>#}
-                    </div>
+                  </div>
                     {{ form_end(rechercheForm) }}
                 </div>
             </div>
 
         </div>
 
-        <table class="table is-striped has-text-centered">
+        <table class="table is-striped has-text-centered mt-4">
             <thead class="has-text-centered">
             <tr>
                 <th>Nom de la sortie</th>
@@ -166,6 +129,6 @@
             {% endfor %}
             </tbody>
         </table>
-        <a class="button" href="{{ path('app_ajout_sortie') }}">Créer une sortie</a>
+        <a class="button is-link" href="{{ path('app_ajout_sortie') }}">Créer une sortie</a>
     </div>
 {% endblock %}
