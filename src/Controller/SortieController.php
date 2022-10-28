@@ -263,12 +263,14 @@ class SortieController extends AbstractController
 
     /**
      * @throws \Exception
+     * Passe à l'état Annulée la sortie correspondant à l'id passé
      */
     #[Route('/cancel/{id}', name: 'annuler_sortie', requirements: ['id' => '\d+'])]
     #[ParamConverter('sortie', class: 'App\Entity\Sortie')]
     #[IsGranted('ROLE_USER')]
     public function annulerSortie(Sortie $sortie = null, EntityManagerInterface $entityManager, Request $request): Response {
         try {
+            // Renvoie une exception si aucune sortie ne correspond à l'id
             if ($sortie == null) {
                 throw new NotFoundHttpException('Cette sortie n\'existe pas');
             }
@@ -276,17 +278,21 @@ class SortieController extends AbstractController
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_home');
         }
+        // Création du formulaire d'annulation
         $form = $this->createForm(AnnulerSortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                // Renvoie une exception si l'utilisateur connecté n'est pas l'organisateur de la sortie
                 if ($this->getUser() !== $sortie->getOrganisateur()) {
                     throw new \Exception('Vous ne pouvez pas annuler une sortie que vous n\'organisez pas');
                 }
+                // Renvoie une exception si la sortie n'est pas dans l'état Ouvert ou Fermé et que la date de début est dépassée
                 if ($sortie->getEtat()->getNom() != "Ouvert" && $sortie->getEtat()->getNom() != "Fermé" && $sortie->getDateHeureDebut() <= new \DateTime()) {
                     throw new \Exception('Vous ne pouvez pas annuler cette sortie');
                 }
+                // Modification de l'état en Annulée
                 $sortie->setEtat($entityManager->getRepository(Etat::class)->findOneBy(['nom' => 'Annulée']));
                 $entityManager->persist($sortie);
                 $entityManager->flush();
